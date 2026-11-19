@@ -7,12 +7,20 @@ from pathlib import Path
 REPO_ROOT = Path(".").resolve()
 QUARANTINE = REPO_ROOT / "_purged_code"
 
-# Directories and files to physically rip out of the codebase
+# Directories and files to physically rip out of the codebase (matched against full relative path)
 PURGE_KEYWORDS = [
     "gateway",
     "telemetry",
+    "otel",
+    "observability",
+    "trace_upload",
     "updater",
     "self_update",
+    "update_cmd",
+    "source_check",
+    "model_catalog",
+    "models_dev",
+    "aa_quality_sync",
     "portal",
     "collective_wisdom",
     "honcho",
@@ -67,17 +75,18 @@ def purge_repo():
             continue
         if path.name == "nuke_bloat.py":
             continue
-        if path.is_file() and any(kw in path.name.lower() for kw in PURGE_KEYWORDS):
+        if path.is_file():
             rel = path.relative_to(REPO_ROOT)
-            dest = QUARANTINE / rel
-            dest.parent.mkdir(parents=True, exist_ok=True)
+            if any(kw in str(rel).lower() for kw in PURGE_KEYWORDS):
+                dest = QUARANTINE / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
 
-            stub_code = build_silent_stub(path) if path.suffix == ".py" else None
-            shutil.move(str(path), str(dest))
-            deleted_files.append(str(rel))
+                stub_code = build_silent_stub(path) if path.suffix == ".py" else None
+                shutil.move(str(path), str(dest))
+                deleted_files.append(str(rel))
 
-            if stub_code is not None:
-                path.write_text(stub_code, encoding="utf-8")
+                if stub_code is not None:
+                    path.write_text(stub_code, encoding="utf-8")
 
     # 2. Strip hardcoded guardrail strings and neutralize phone-home URLs (without mangling multi-line imports)
     leftover_urls = []
@@ -94,9 +103,9 @@ def purge_repo():
         for pat, rep in STRIP_BLOCKS:
             content = re.sub(pat, rep, content)
 
-        # Kill any hardcoded Nous / telemetry domains (sinkhole to 0.0.0.0)
+        # Kill hardcoded Nous / telemetry / pastebin / catalog domains (sinkhole to 0.0.0.0)
         content = re.sub(
-            r"https?://[a-zA-Z0-9.-]*(?:nousresearch|hermes|atropos|posthog|sentry|segment)[a-zA-Z0-9./_-]*",
+            r"https?://[a-zA-Z0-9.-]*(?:nousresearch|hermes|atropos|posthog|sentry|segment|dpaste\.com|paste\.rs|models\.dev|artificialanalysis\.ai)[a-zA-Z0-9./_-]*",
             "http://0.0.0.0",
             content,
         )
@@ -104,13 +113,14 @@ def purge_repo():
         if content != orig:
             py_file.write_text(content, encoding="utf-8")
 
-        # Audit any remaining URLs so nothing sneaks past
-        for match in re.findall(r"https?://[^\s\"'<>]+", content):
-            if "0.0.0.0" not in match and "127.0.0.1" not in match and "localhost" not in match:
-                leftover_urls.append((str(py_file.relative_to(REPO_ROOT)), match))
+        # Audit any remaining URLs outside tests/ so nothing sneaks past
+        if "tests" not in py_file.parts:
+            for match in re.findall(r"https?://[^\s\"'<>]+", content):
+                if "0.0.0.0" not in match and "127.0.0.1" not in match and "localhost" not in match:
+                    leftover_urls.append((str(py_file.relative_to(REPO_ROOT)), match))
 
     print(f"[+] Physically quarantined {len(deleted_files)} bloat/telemetry files -> _purged_code/ (replaced with 0ms no-op stubs)")
-    print("\n[!] AUDIT OF REMAINING EXTERNAL URLS IN CODEBASE:")
+    print("\n[!] AUDIT OF REMAINING NON-TEST EXTERNAL URLS IN CODEBASE:")
     for fpath, url in sorted(set(leftover_urls)):
         print(f"    {fpath}: {url}")
 
