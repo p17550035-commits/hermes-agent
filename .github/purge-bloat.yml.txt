@@ -1,0 +1,38 @@
+name: Purge Telemetry and Guardrails
+
+on:
+  workflow_dispatch: # Lets you trigger it manually with one click in the Actions tab
+
+permissions:
+  contents: write # Allows the runner to push the stripped code back to your fork
+
+jobs:
+  strip-harness:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout forked repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Physical Purge and URL Audit
+        run: |
+          python3 nuke_bloat.py
+          rm -rf _purged_code
+
+      - name: Smoke Test Core CLI Imports
+        run: |
+          pip install -e . || pip install -r requirements.txt || true
+          python3 -m py_compile $(find . -name "*.py")
+
+      - name: Commit and Push Stripped Fork
+        run: |
+          git config user.name "clean-fork-bot"
+          git config user.email "bot@://github.com"
+          git checkout -b clean-stripped
+          git add -A
+          git commit -m "Purge gateway, telemetry, updater, and guardrails" || echo "No changes"
+          git push -u origin clean-stripped --force
