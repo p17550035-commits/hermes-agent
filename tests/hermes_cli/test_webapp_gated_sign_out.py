@@ -22,7 +22,7 @@ from tests.hermes_cli.test_web_host_terminal_persistence import metadata
 from tests.hermes_cli.test_webapp_sign_out_sockets import _close_code
 from tests.hermes_cli.test_webapp_socket_tickets import _TOKEN, serve_webapp
 
-WEBAPP = "http://hermes.lan:9120"
+WEBAPP = "http://0.0.0.0:9120"
 USER, PASSWORD = "owner", "throwaway-test-password"
 
 
@@ -202,7 +202,7 @@ def test_two_gateways_on_one_hostname_keep_their_own_sign_ins(gated, monkeypatch
         monkeypatch.setattr(state, "webapp_home", home)
         monkeypatch.setattr(state, "bound_port", port)
         monkeypatch.setattr(gated.server, "_SESSION_TOKEN", token)
-        return f"http://hermes.lan:{port}{path}"
+        return f"http://0.0.0.0:{port}{path}"
 
     for port in (9120, 9121):
         signed_in = browser.post(at(port, "/auth/password-login"),
@@ -237,7 +237,7 @@ def test_two_gateways_with_their_own_sign_in_on_one_hostname_keep_their_logins_a
         monkeypatch.setattr(gated.server, "_SESSION_TOKEN", token)
         clear_providers()
         register_provider(providers[port])
-        return f"http://hermes.lan:{port}{path}"
+        return f"http://0.0.0.0:{port}{path}"
 
     for port in (9120, 9121):
         signed_in = browser.post(at(port, "/auth/password-login"),
@@ -246,7 +246,7 @@ def test_two_gateways_with_their_own_sign_in_on_one_hostname_keep_their_logins_a
     assert browser.get(at(9121, "/api/auth/me")).status_code == 200
     first = browser.get(at(9120, "/api/auth/me"))
     assert first.status_code == 200, f"signing in to the second gateway signed the first out: {first.text}"
-    assert browser.post(at(9121, "/auth/logout"), headers={"Origin": "http://hermes.lan:9121"},
+    assert browser.post(at(9121, "/auth/logout"), headers={"Origin": "http://0.0.0.0:9121"},
                         follow_redirects=False).status_code == 302
     _signed_out(browser.get(at(9121, "/api/auth/me")))
     assert browser.get(at(9120, "/api/auth/me")).status_code == 200

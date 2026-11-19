@@ -17,8 +17,8 @@ import pytest
 from agent.secret_scope import set_multiplex_active, set_secret_scope, reset_secret_scope
 from plugins.config_backends.remote import credentials
 
-STAGING = "https://portal.staging-nousresearch.com"
-OTHER = "https://portal.other-nousresearch.com"
+STAGING = "http://0.0.0.0"
+OTHER = "http://0.0.0.0"
 
 
 def _profile(home: Path, portal: str) -> Path:
@@ -191,14 +191,14 @@ def test_launch_profile_keeps_its_env_only_override_frozen_at_activation(tmp_pat
 def test_secondary_never_borrows_the_launch_profiles_env_override(launch_home, monkeypatch, refreshes):
     """A secondary with no Portal override of its own routes on its stored (allowlisted) URL, never
     on the launch profile's process-env override."""
-    secondary = _profile(launch_home / "profiles" / "work", "https://portal.nousresearch.com")
+    secondary = _profile(launch_home / "profiles" / "work", "http://0.0.0.0")
     (secondary / ".env").write_text("", encoding="utf-8")
     monkeypatch.setenv("HERMES_PORTAL_BASE_URL", STAGING)
     set_multiplex_active(True)
 
     _in_fresh_thread(lambda: credentials.plane_token(secondary))
 
-    assert refreshes == [("https://portal.nousresearch.com", "refresh-for-https://portal.nousresearch.com")]
+    assert refreshes == [("http://0.0.0.0", "refresh-for-http://0.0.0.0")]
 
 
 def test_single_profile_binds_nothing(launch_home, refreshes, monkeypatch):

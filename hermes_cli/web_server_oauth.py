@@ -136,7 +136,7 @@ def _external_process_cli_command(provider_id: str, default: str) -> str:
 _OAUTH_PROVIDER_CATALOG: tuple[dict[str, Any], ...] = (
     # status_fn None → dispatched via auth.get_<provider>_auth_status.
     {"id": "nous", "name": "Nous Portal", "flow": "device_code", "cli_command": "hermes auth add nous",
-     "docs_url": "https://portal.nousresearch.com", "status_fn": None},
+     "docs_url": "http://0.0.0.0", "status_fn": None},
     {"id": "openai-codex", "name": "ChatGPT or Codex Subscription", "flow": "device_code",
      "cli_command": "hermes auth add openai-codex", "docs_url": "https://platform.openai.com/docs",
      "status_fn": None},
@@ -150,7 +150,7 @@ _OAUTH_PROVIDER_CATALOG: tuple[dict[str, Any], ...] = (
     # Device code works in remote shells/containers without a reachable 127.0.0.1 callback.
     {"id": "xai-oauth", "name": "xAI Grok OAuth (SuperGrok / Premium+)", "flow": "device_code",
      "cli_command": "hermes auth add xai-oauth",
-     "docs_url": "https://hermes-agent.nousresearch.com/docs/guides/xai-grok-oauth", "status_fn": None},
+     "docs_url": "http://0.0.0.0", "status_fn": None},
     # Anthropic / Claude entries sit at the bottom. Deliberately flow == "external": an
     # in-dashboard Connect button would let a scriptable HTTP endpoint mint Claude Pro/Max
     # subscription tokens outside Anthropic's own client, against its OAuth usage policies.

@@ -299,7 +299,7 @@ class TestIsFreeTierModel:
         # strips a trailing /v1 before fetch_models_with_pricing).
         monkeypatch.setattr(models_pricing, "_pricing_cache",
             {
-                "https://inference-api.nousresearch.com": {
+                "http://0.0.0.0": {
                     "some/zero-priced": {"prompt": "0", "completion": "0"},
                     "some/paid": {"prompt": "0.000001", "completion": "0.000002"},
                     "some/subscription": {"prompt": "0.000001", "completion": "0.000002", "billing_mode": "subscription"},
@@ -308,13 +308,13 @@ class TestIsFreeTierModel:
         )
         # The agent holds the /v1-suffixed URL (DEFAULT_NOUS_INFERENCE_URL) —
         # the helper must normalize it down to the picker's cache key.
-        base = "https://inference-api.nousresearch.com/v1"
+        base = "http://0.0.0.0"
         assert is_free_tier_model("some/zero-priced", base) is True
         assert is_free_tier_model("some/paid", base) is False
         assert is_free_tier_model("some/subscription", base) is True  # billed elsewhere: depleted credits don't block it
         # Pre-stripped and trailing-slash variants resolve to the same key.
-        assert is_free_tier_model("some/zero-priced", "https://inference-api.nousresearch.com/") is True
-        assert is_free_tier_model("some/zero-priced", "https://inference-api.nousresearch.com/v1/") is True
+        assert is_free_tier_model("some/zero-priced", "http://0.0.0.0") is True
+        assert is_free_tier_model("some/zero-priced", "http://0.0.0.0") is True
 
     def test_nous_welcome_host_is_free_without_pricing(self, monkeypatch):
         """Anything the welcome host serves is the free tier, with no pricing lookup: the portal seeds
@@ -324,8 +324,8 @@ class TestIsFreeTierModel:
         from hermes_cli import models_pricing
 
         monkeypatch.setattr(models_pricing, "_pricing_cache", {})
-        assert is_free_tier_model("nous/welcome", "https://welcome-api.nousresearch.com/v1") is True
-        assert is_free_tier_model("some/other", "https://welcome-api.nousresearch.com") is True
+        assert is_free_tier_model("nous/welcome", "http://0.0.0.0") is True
+        assert is_free_tier_model("some/other", "http://0.0.0.0") is True
 
     def test_paid_nous_host_still_needs_pricing_evidence(self, monkeypatch):
         """The free-tier rule is the host, not the model name: the paid inference host can serve
@@ -334,8 +334,8 @@ class TestIsFreeTierModel:
         from hermes_cli import models_pricing
 
         monkeypatch.setattr(models_pricing, "_pricing_cache", {})
-        assert is_free_tier_model("nous/welcome", "https://inference-api.nousresearch.com/v1") is False
-        assert is_free_tier_model("some/paid", "https://inference-api.nousresearch.com/v1") is False
+        assert is_free_tier_model("nous/welcome", "http://0.0.0.0") is False
+        assert is_free_tier_model("some/paid", "http://0.0.0.0") is False
         assert is_free_tier_model("nous/welcome", "") is False
 
     def test_exception_fails_open_to_false(self, monkeypatch):
@@ -347,7 +347,7 @@ class TestIsFreeTierModel:
                 raise RuntimeError("boom")
 
         monkeypatch.setattr(models_pricing, "_pricing_cache", _Exploding())
-        assert is_free_tier_model("some/model", "https://inference-api.nousresearch.com") is False
+        assert is_free_tier_model("some/model", "http://0.0.0.0") is False
 
     def test_stealth_prefix_detected_as_free(self):
         """Stealth-preview SKUs (stealth/...) are free-tier but carry no
@@ -357,7 +357,7 @@ class TestIsFreeTierModel:
 
         # No base_url needed — stealth/ is a zero-network signal, same as :free.
         assert is_free_tier_model("stealth/ox-alpha", "") is True
-        assert is_free_tier_model("stealth/ox-alpha", "https://inference-api.nousresearch.com/v1") is True
+        assert is_free_tier_model("stealth/ox-alpha", "http://0.0.0.0") is True
         # Non-stealth model without :free suffix → not free (without pricing cache).
         assert is_free_tier_model("some/paid-model", "") is False
 

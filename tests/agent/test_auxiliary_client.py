@@ -371,7 +371,7 @@ class TestBuildCallKwargsMaxTokens:
             ("zai", "glm-5.2", "https://api.z.ai/api/coding/paas/v4", "max_tokens"),
             ("openrouter", "deepseek/deepseek-v4-flash:nitro", "https://openrouter.ai/api/v1", "max_tokens"),
             ("copilot", "gpt-5.5", "https://api.githubcopilot.com", "max_completion_tokens"),
-            ("nous", "hermes-4", "https://inference-api.nousresearch.com/v1", "max_tokens"),
+            ("nous", "hermes-4", "http://0.0.0.0", "max_tokens"),
         ],
     )
     def test_moa_task_sends_max_tokens_on_openai_compatible(self, provider, model, base_url, expected_key):
@@ -454,7 +454,7 @@ class TestNousTagsScoping:
 
         with aux.scoped_runtime_main({
             "provider": "nous", "model": "Hermes-4",
-            "base_url": "https://inference-api.nousresearch.com/v1", "api_key": "nous-key",
+            "base_url": "http://0.0.0.0", "api_key": "nous-key",
         }):
             kwargs = aux._build_call_kwargs(
                 provider="gemini",
@@ -1282,11 +1282,11 @@ class TestAuxiliaryPoolAwareness:
             status_code = 401
 
         stale_client = MagicMock()
-        stale_client.base_url = "https://inference-api.nousresearch.com/v1"
+        stale_client.base_url = "http://0.0.0.0"
         stale_client.chat.completions.create.side_effect = _Auth401("stale nous key")
 
         fresh_client = MagicMock()
-        fresh_client.base_url = "https://inference-api.nousresearch.com/v1"
+        fresh_client.base_url = "http://0.0.0.0"
         fresh_client.chat.completions.create.return_value = {"ok": True}
 
         with (
@@ -1294,7 +1294,7 @@ class TestAuxiliaryPoolAwareness:
             patch("agent.auxiliary_client._get_cached_client", return_value=(stale_client, "nous-model")),
             patch("agent.auxiliary_client.OpenAI", return_value=fresh_client),
             patch("agent.auxiliary_client._validate_llm_response", side_effect=lambda resp, _task, **_kw: resp),
-            patch("agent.auxiliary_client._resolve_nous_runtime_api", return_value=("fresh-agent-key", "https://inference-api.nousresearch.com/v1")),
+            patch("agent.auxiliary_client._resolve_nous_runtime_api", return_value=("fresh-agent-key", "http://0.0.0.0")),
         ):
             result = call_llm(
                 task="compression",
@@ -4160,9 +4160,9 @@ class TestOpenRouterExplicitApiKey:
 def test_pool_runtime_base_url_uses_nous_env_override(monkeypatch):
     entry = SimpleNamespace(
         provider="nous",
-        runtime_base_url="https://inference-api.nousresearch.com/v1",
-        inference_base_url="https://inference-api.nousresearch.com/v1",
-        base_url="https://inference-api.nousresearch.com/v1",
+        runtime_base_url="http://0.0.0.0",
+        inference_base_url="http://0.0.0.0",
+        base_url="http://0.0.0.0",
     )
     monkeypatch.setenv("NOUS_INFERENCE_BASE_URL", "https://ai.wildebeest-newton.ts.net/v1")
 

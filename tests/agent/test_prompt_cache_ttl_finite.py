@@ -129,7 +129,7 @@ def test_unreadable_config_still_builds_an_agent_on_auto(monkeypatch):
     for key in ("HERMES_SESSION_SOURCE", "HERMES_SESSION_SOURCE_EXPLICIT", "HERMES_SINGLE_QUERY_SESSION"):
         monkeypatch.delenv(key, raising=False)
     agent = SimpleNamespace(_anthropic_prompt_cache_policy=lambda: (True, True), platform="cli",
-                            provider="nous", base_url="https://inference-api.nousresearch.com/v1", model="claude")
+                            provider="nous", base_url="http://0.0.0.0", model="claude")
     _init_prompt_cache_config(agent)
     assert (agent._cache_ttl, agent._cache_ttl_auto, agent._cache_disabled) == ("5m", True, False)
     assert agent._cache_ttl_adaptive  # a person's chat on auto: upgrades to 1h at its first pause
@@ -167,7 +167,7 @@ def test_auto_chat_started_on_a_5m_route_sends_1h_after_switching_to_openrouter(
         monkeypatch.delenv(key, raising=False)
     agent = AIAgent(
         platform="cli", provider="nous", api_key="fixture-key",
-        base_url="https://inference-api.nousresearch.com/v1", model="anthropic/claude-sonnet-4.6",
+        base_url="http://0.0.0.0", model="anthropic/claude-sonnet-4.6",
         quiet_mode=True, skip_context_files=True, skip_memory=True,
         save_trajectories=False, enabled_toolsets=["file"],
     )

@@ -102,7 +102,7 @@ def test_openai_spec_routes_hold_30_minutes_renewed_by_a_read(monkeypatch):
             ("openai-api", "https://api.openai.com/v1", "gpt-5.6-luna", "codex_responses"),
             ("openai-api", "https://api.openai.com/v1", "gpt-4.1-mini", "chat_completions"),
             ("deepseek", "https://api.deepseek.com/v1", "deepseek-v4", "chat_completions"),
-            ("nous", "https://inference-api.nousresearch.com/v1", "z-ai/glm-5.1", "chat_completions")):
+            ("nous", "http://0.0.0.0", "z-ai/glm-5.1", "chat_completions")):
         agent = _agent(provider, base_url, model, api_mode=api_mode)
         agent._use_prompt_caching = False
         usage = ({"input_tokens": 4000, "output_tokens": 2, "input_tokens_details": {"cached_tokens": 3000}}
@@ -147,7 +147,7 @@ def test_nous_ceiling_is_data_on_the_wire_and_in_the_clock(tmp_path, monkeypatch
     from agent.prompt_caching import effective_cache_ttl
 
     monkeypatch.setenv("HERMES_HOME", str(tmp_path))
-    portal = "https://inference-api.nousresearch.com/v1"
+    portal = "http://0.0.0.0"
     for provider in ("nous", "custom"):
         assert effective_cache_ttl("1h", provider=provider, model="anthropic/claude-sonnet-4.6", base_url=portal) == "1h"
     usage = {"prompt_tokens": 5000, "completion_tokens": 3,

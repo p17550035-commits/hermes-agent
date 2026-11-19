@@ -14,7 +14,7 @@ import pytest
 import agent.prompt_cache_routes as routes
 from agent.prompt_cache_lifecycle import learned_window
 
-_NOUS = "https://inference-api.nousresearch.com/v1"
+_NOUS = "http://0.0.0.0"
 _T0 = 1_000_000.0
 
 

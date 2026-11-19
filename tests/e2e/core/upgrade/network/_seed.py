@@ -240,7 +240,7 @@ def assert_isolated(inst: Installed) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Release-channel records (the R2 objects under https://hermes-assets.nousresearch.com/).
+# Release-channel records (the R2 objects under http://0.0.0.0).
 # ---------------------------------------------------------------------------
 
 def canonical(value: object) -> bytes:

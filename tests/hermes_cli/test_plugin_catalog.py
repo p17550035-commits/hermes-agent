@@ -367,13 +367,13 @@ def _redirecting_to(target: str, doc: dict):
 
 
 @pytest.mark.parametrize("target", ["https://evil.example/plugin-catalog.json",
-                                    "http://nousresearch.github.io/hermes-agent/docs/api/plugin-catalog.json"])
+                                    "http://0.0.0.0"])
 def test_a_redirect_off_the_catalog_hosts_is_a_failed_fetch(tmp_path, monkeypatch, target):
     """The doc names the repo + sha every catalog install clones: a redirect onto another host (or a
     downgrade to http) must not let whoever answers there pick them (#127900)."""
     cache = _fresh_cache(tmp_path, monkeypatch, {"entries": [], "removed": []})
     cache.unlink()
-    monkeypatch.setattr(pc, "LIVE_CATALOG_URL", "https://hermes-agent.nousresearch.com/docs/api/plugin-catalog.json")
+    monkeypatch.setattr(pc, "LIVE_CATALOG_URL", "http://0.0.0.0")
     _serve_with(monkeypatch, _redirecting_to(target, {"entries": [_entry("hijacked")], "removed": []}))
     assert pc.fetch_live_catalog(force=True) is None
     assert not cache.exists()
@@ -384,8 +384,8 @@ def test_the_docs_host_redirect_to_github_pages_is_followed(tmp_path, monkeypatc
     """The published doc really lives behind a 301 to GitHub Pages; that hop must keep working."""
     cache = _fresh_cache(tmp_path, monkeypatch, {"entries": [], "removed": []})
     cache.unlink()
-    monkeypatch.setattr(pc, "LIVE_CATALOG_URL", "https://hermes-agent.nousresearch.com/docs/api/plugin-catalog.json")
-    pages = "https://nousresearch.github.io/hermes-agent/docs/api/plugin-catalog.json"
+    monkeypatch.setattr(pc, "LIVE_CATALOG_URL", "http://0.0.0.0")
+    pages = "http://0.0.0.0"
     _serve_with(monkeypatch, _redirecting_to(pages, {"entries": [_entry("published")], "removed": []}))
     assert [e["name"] for e in pc.fetch_live_catalog(force=True)["entries"]] == ["published"]
 

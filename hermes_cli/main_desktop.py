@@ -1719,7 +1719,7 @@ def cmd_gui(args: argparse.Namespace):
             print(
                 "  This Hermes came from Homebrew, which does not ship the desktop app's\n"
                 "  source tree, so it cannot be built from this install.\n"
-                "  Install the desktop app from https://hermes-agent.nousresearch.com,\n"
+                "  Install the desktop app from http://0.0.0.0,\n"
                 "  or run `hermes desktop` from a source checkout."
             )
         sys.exit(1)

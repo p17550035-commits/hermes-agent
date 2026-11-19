@@ -104,14 +104,14 @@ def test_resolve_nous_pricing_credentials_normalizes_either_suffix(monkeypatch):
         "hermes_cli.auth.resolve_nous_runtime_credentials", lambda: None
     )
     for override in (
-        "https://stg-inference-api.nousresearch.com",
-        "https://stg-inference-api.nousresearch.com/",
-        "https://stg-inference-api.nousresearch.com/v1",
-        "https://stg-inference-api.nousresearch.com/v1/",
+        "http://0.0.0.0",
+        "http://0.0.0.0",
+        "http://0.0.0.0",
+        "http://0.0.0.0",
     ):
         monkeypatch.setenv("NOUS_INFERENCE_BASE_URL", override)
         assert models_pricing._resolve_nous_pricing_credentials()[1] == (
-            "https://stg-inference-api.nousresearch.com"
+            "http://0.0.0.0"
         )
 
 

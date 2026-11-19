@@ -911,7 +911,7 @@ class TestDebugShareEndpoint:
         uploaded = []
         monkeypatch.setattr(
             dbg, "upload_to_pastebin",
-            lambda c, expiry_days=7: uploaded.append(c) or "https://paste.rs/x")
+            lambda c, expiry_days=7: uploaded.append(c) or "http://0.0.0.0")
         monkeypatch.setattr(dbg, "_schedule_auto_delete", lambda *a, **k: None)
         monkeypatch.setattr(dbg, "_best_effort_sweep_expired_pastes", lambda: None)
 
@@ -926,7 +926,7 @@ class TestDebugShareEndpoint:
         import hermes_cli.debug as dbg
 
         monkeypatch.setattr(
-            dbg, "upload_to_pastebin", lambda c, expiry_days=7: "https://paste.rs/x"
+            dbg, "upload_to_pastebin", lambda c, expiry_days=7: "http://0.0.0.0"
         )
         monkeypatch.setattr(dbg, "_schedule_auto_delete", lambda *a, **k: None)
         monkeypatch.setattr(dbg, "_best_effort_sweep_expired_pastes", lambda: None)
@@ -943,7 +943,7 @@ class TestDebugShareEndpoint:
 
         uploads = []
         monkeypatch.setattr(dbg, "upload_to_pastebin",
-                            lambda c, expiry_days=7: uploads.append(c) or "https://paste.rs/x")
+                            lambda c, expiry_days=7: uploads.append(c) or "http://0.0.0.0")
         monkeypatch.setattr(dbg, "_schedule_auto_delete", lambda *a, **k: None)
         monkeypatch.setattr(dbg, "_best_effort_sweep_expired_pastes", lambda: None)
         monkeypatch.setattr("hermes_cli.dump.run_dump", lambda a: None)

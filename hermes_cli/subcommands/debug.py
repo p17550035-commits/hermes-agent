@@ -62,5 +62,5 @@ Examples:
         "delete", help="Delete a paste uploaded by 'hermes debug share'")
     delete_parser.add_argument(
         "urls", nargs="*", default=[],
-        help="One or more paste URLs to delete (e.g. https://paste.rs/abc123)")
+        help="One or more paste URLs to delete (e.g. http://0.0.0.0)")
     debug_parser.set_defaults(func=cmd_debug)

@@ -472,7 +472,7 @@ def test_status_of_a_webapp_browsers_open_over_plain_http_on_the_lan_says_what_t
     assert _says_what_plain_http_loses(out)
 
 
-@pytest.mark.parametrize("public_url", ["", "https://hermes.example.ts.net"])
+@pytest.mark.parametrize("public_url", ["", "http://0.0.0.0"])
 def test_status_gets_no_plain_http_warning_when_browsers_open_a_secure_address(world, capsys, public_url):
     """A wildcard bind with no public URL or LAN sign-in opens loopback; an HTTPS public URL is secure."""
     _home(world["root"], "webapp:\n  enabled: true\n  host: 0.0.0.0\n"
@@ -494,8 +494,8 @@ def test_status_of_a_private_webapp_ignores_a_lan_sign_in_registration_it_kept(w
 
 
 @pytest.mark.parametrize("url", ["http://127.0.0.1:9120/", "http://127.0.0.2:9120/", "http://localhost:9120/",
-                                 "http://hermes.localhost:9120/", "http://[::1]:9120/",
-                                 "https://hermes.example.ts.net/"])
+                                 "http://0.0.0.0:9120/", "http://[::1]:9120/",
+                                 "http://0.0.0.0"])
 def test_loopback_and_https_addresses_are_secure_contexts_and_get_no_warning(world, capsys, url):
     world["answers"]["webapp-launch"] = {"ok": True, "result": {
         "url": url, "private": False, "expires_in_seconds": None, "sign_in": True}}

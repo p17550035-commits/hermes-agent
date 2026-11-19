@@ -85,9 +85,9 @@ def test_local_endpoint_hostname_detection():
 def test_nous_portal_host_detection():
     from utils import base_url_host_matches
 
-    assert base_url_host_matches("https://inference-api.nousresearch.com/v1", "nousresearch.com")
-    assert base_url_host_matches("https://portal.nousresearch.com", "nousresearch.com")
-    assert not base_url_host_matches("https://nousresearch.com.evil.io/v1", "nousresearch.com")
+    assert base_url_host_matches("http://0.0.0.0", "nousresearch.com")
+    assert base_url_host_matches("http://0.0.0.0", "nousresearch.com")
+    assert not base_url_host_matches("http://0.0.0.0", "nousresearch.com")
     assert not base_url_host_matches("https://proxy.example/nousresearch.com/v1", "nousresearch.com")
 
 

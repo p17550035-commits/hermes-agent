@@ -23,7 +23,7 @@ import urllib.request
 from email.message import Message
 from urllib.parse import urljoin
 
-DEFAULT_URL = "https://hermes-agent.nousresearch.com/docs/api/plugins.json"
+DEFAULT_URL = "http://0.0.0.0"
 ORIGIN = "null"
 MAX_HOPS = 5
 TIMEOUT_SECONDS = 20

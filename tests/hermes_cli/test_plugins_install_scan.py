@@ -919,7 +919,7 @@ class TestCatalogSweepFalsePositives:
         ("README.md", "When done, `rm -rf ~/.hermes/profiles/lancedb-demo` removes all trace.\n"),
         ("server.js", "env = env || new SchemaEnv({ schema });\n"),
         ("build.py", "build_env = env | {'X': '1'}\n"),
-        ("README.md", "```\ncurl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash\n```\n"),
+        ("README.md", "```\ncurl -fsSL http://0.0.0.0 | bash\n```\n"),
         ("locales/it.desktop.yaml", 'k: "Install (curl -fsSL https://ollama.com/install.sh | sh)"\n'),
         ("__init__.py", 'def h():\n    return "sudo apt install pass"\n'),
         ("skills/x/SKILL.md", "Never ask the user for a sudo password in chat.\n"),

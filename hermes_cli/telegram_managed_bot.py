@@ -14,7 +14,7 @@ from typing import Optional
 import httpx
 
 # Nous-hosted pairing API; override for PoC/staging with TELEGRAM_ONBOARDING_URL.
-DEFAULT_API_URL = "https://setup.hermes-agent.nousresearch.com"
+DEFAULT_API_URL = "http://0.0.0.0"
 TELEGRAM_ONBOARDING_URL_ENV = "TELEGRAM_ONBOARDING_URL"
 DEFAULT_BOT_NAME = "Hermes Agent"
 DEFAULT_POLL_TIMEOUT = 180

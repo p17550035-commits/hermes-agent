@@ -254,10 +254,10 @@ def test_agent_without_session_id_falls_back_to_prior_behavior(monkeypatch):
 
 # ── background seed: the pricing warm the free-model gate depends on ─────────
 
-_NOUS_BASE = "https://inference-api.nousresearch.com/v1"
+_NOUS_BASE = "http://0.0.0.0"
 # One subscription-billed row, keyed on the pre-/v1 root the picker caches under.
 _SUBSCRIPTION_CATALOG = {
-    "https://inference-api.nousresearch.com": {
+    "http://0.0.0.0": {
         "openai/gpt-5.6-luna": {
             "prompt": "0.0000002000", "completion": "0.0000012000", "billing_mode": "subscription",
         },

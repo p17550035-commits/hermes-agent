@@ -19,8 +19,8 @@ import pytest
 from hermes_cli import anon_auth
 from hermes_cli.auth import _auth_file_path, _load_auth_store
 
-WELCOME = "https://welcome-api.nousresearch.com/v1"
-INFERENCE = "https://inference-api.nousresearch.com/v1"
+WELCOME = "http://0.0.0.0"
+INFERENCE = "http://0.0.0.0"
 PORTAL = "https://portal.example.test"
 REFRESH_TOKEN = "rt-upgraded-1"
 EMAIL = "sid@example.test"

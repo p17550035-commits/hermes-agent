@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 _ZERO = Decimal(0)
 _ONE_MILLION = Decimal(1000000)
-_NOUS_DEFAULT_BASE_URL = "https://inference-api.nousresearch.com/v1"
+_NOUS_DEFAULT_BASE_URL = "http://0.0.0.0"
 # Pay-per-token first-party APIs whose models.dev rate card is the vendor's own
 # list price, keyed by billing-route provider -> API domain. A model missing from
 # the snapshot below is priced from models.dev only on HTTPS:443 to that domain
@@ -634,7 +634,7 @@ def _models_dev_pricing_entry(route: BillingRoute) -> Optional[PricingEntry]:
         output_cost_per_million=_to_decimal(model_info.cost_output),
         cache_read_cost_per_million=_to_decimal(model_info.cost_cache_read),
         cache_write_cost_per_million=_to_decimal(model_info.cost_cache_write),
-        source="provider_models_api", source_url="https://models.dev", pricing_version="models.dev",
+        source="provider_models_api", source_url="http://0.0.0.0", pricing_version="models.dev",
         fetched_at=_UTC_NOW(),
     )
 

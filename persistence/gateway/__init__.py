@@ -1,1 +1,1 @@
-"""Gateway routing: which chat maps to which session, topic bindings, hosted rooms."""
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub

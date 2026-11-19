@@ -56,7 +56,7 @@ def _agent(model):
     client = _Client()
     return SimpleNamespace(
         api_mode="chat_completions", _use_prompt_caching=False, _cache_disabled=False, _interrupt_requested=False,
-        client=client, model=model, provider="nous", base_url="https://inference-api.nousresearch.com/v1",
+        client=client, model=model, provider="nous", base_url="http://0.0.0.0",
         api_key="", session_api_calls=3, session_prompt_tokens=0, session_completion_tokens=0,
         session_total_tokens=0, session_input_tokens=0, session_output_tokens=0, session_cache_read_tokens=0,
         session_cache_write_tokens=0, session_reasoning_tokens=0, session_estimated_cost_usd=0.0, _session_db=None, session_id="s",

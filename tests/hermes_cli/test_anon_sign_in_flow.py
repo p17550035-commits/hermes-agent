@@ -137,7 +137,7 @@ def test_the_portal_override_wins_over_a_saved_portal(portal, monkeypatch):
     guest = _seed_free_tier()
     from hermes_cli.auth import _save_auth_store, _save_provider_state
     store = _load_auth_store()
-    _save_provider_state(store, "nous", {**guest, "portal_base_url": "https://portal.nousresearch.com"})
+    _save_provider_state(store, "nous", {**guest, "portal_base_url": "http://0.0.0.0"})
     _save_auth_store(store)
     asked = []
 
@@ -365,7 +365,7 @@ def test_the_scope_is_entered_for_the_precondition_and_the_persist_but_never_aro
 
 @pytest.mark.parametrize("portal_url", [
     "https://attacker.example.com/v1",
-    "http://inference-api.nousresearch.com/v1",
+    "http://0.0.0.0",
 ])
 def test_a_refused_portal_inference_url_is_not_stored(portal, free_account, monkeypatch, portal_url):
     # The URL receives the account bearer: off-allowlist / non-https falls back to the registry default.
@@ -387,12 +387,12 @@ def test_a_refused_portal_inference_url_is_not_stored(portal, free_account, monk
 def test_an_allowlisted_portal_inference_url_is_stored(portal, free_account, monkeypatch):
     monkeypatch.delenv("NOUS_INFERENCE_BASE_URL", raising=False)
     _seed_free_tier()
-    portal.token_inference_url = "https://inference-api.nousresearch.com:8443/v2"
+    portal.token_inference_url = "http://0.0.0.0:8443/v2"
 
     assert _drain()[-1].kind == "completed"
 
     assert _load_auth_store()["providers"]["nous"]["inference_base_url"] == (
-        "https://inference-api.nousresearch.com:8443/v2")
+        "http://0.0.0.0:8443/v2")
 
 
 def test_the_inference_url_override_is_read_inside_the_profile_scope(portal, free_account, monkeypatch):

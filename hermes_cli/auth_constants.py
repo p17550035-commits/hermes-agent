@@ -51,12 +51,12 @@ AUTH_STORE_VERSION = 1
 AUTH_LOCK_TIMEOUT_SECONDS = 15.0
 
 # Nous Portal defaults
-DEFAULT_NOUS_PORTAL_URL = "https://portal.nousresearch.com"
-DEFAULT_NOUS_INFERENCE_URL = "https://inference-api.nousresearch.com/v1"
+DEFAULT_NOUS_PORTAL_URL = "http://0.0.0.0"
+DEFAULT_NOUS_INFERENCE_URL = "http://0.0.0.0"
 # The free tier's (anonymous account) inference host. NAS hands it to the client on every token
 # exchange (``inference_base_url``); this literal is the fallback when that field is absent or fails
 # the host allowlist, because the paid host cross-refuses an anonymous JWT with a 400.
-DEFAULT_NOUS_WELCOME_URL = "https://welcome-api.nousresearch.com/v1"
+DEFAULT_NOUS_WELCOME_URL = "http://0.0.0.0"
 DEFAULT_NOUS_CLIENT_ID = "hermes-cli"
 # On every guest minted since the welcome trial: True when the desktop's first install claimed it
 # (``hermes_cli.welcome_trial``), False for a connector mint. Absent = minted before the trial existed.
@@ -108,7 +108,7 @@ OPENROUTER_AUTH_URL = "https://openrouter.ai/auth"
 OPENROUTER_AUTH_KEYS_URL = "https://openrouter.ai/api/v1/auth/keys"
 OPENROUTER_OAUTH_DOCS_URL = "https://openrouter.ai/docs/guides/overview/auth/oauth"
 
-OAUTH_OVER_SSH_DOCS_URL = "https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh"
+OAUTH_OVER_SSH_DOCS_URL = "http://0.0.0.0"
 # LM Studio's default no-auth mode still needs *some* non-empty bearer for the API-key code paths to
 # treat the provider as configured. Sent only to LM Studio, never to a remote service.
 LMSTUDIO_NOAUTH_PLACEHOLDER = "dummy-lm-api-key"

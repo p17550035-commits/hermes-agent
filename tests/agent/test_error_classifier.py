@@ -203,7 +203,7 @@ class TestClassifyApiError:
                 "status": 404,
                 "message": (
                     "Model 'gpt-5' is not available on the Free Tier. "
-                    "Upgrade at https://portal.nousresearch.com or pick a free model."
+                    "Upgrade at http://0.0.0.0 or pick a free model."
                 ),
             },
         )
@@ -221,7 +221,7 @@ class TestClassifyApiError:
                 "message": (
                     "Model 'openai/gpt-5.5-pro' requires available credits. "
                     "Your account balance is too low to use paid models — "
-                    "add credits at https://portal.nousresearch.com or pick a free model."
+                    "add credits at http://0.0.0.0 or pick a free model."
                 ),
             },
         )
@@ -2080,7 +2080,7 @@ class TestNousWelcomeTier:
         assert "reset_at" not in result.error_context
 
     def test_anonymous_jwt_on_the_paid_host_is_deterministic(self):
-        body = {"status": 400, "message": "Anonymous accounts must use https://welcome-api.nousresearch.com for inference."}
+        body = {"status": 400, "message": "Anonymous accounts must use http://0.0.0.0 for inference."}
         err = MockAPIError(f"Error code: 400 - {body}", status_code=400, body=body)
         result = classify_api_error(err, provider="nous", api_key=make_jwt(), model="nous/welcome")
         assert result.reason == FailoverReason.format_error
@@ -2088,7 +2088,7 @@ class TestNousWelcomeTier:
         assert result.error_context["welcome_route"] == "anon_on_paid_host"
 
     def test_named_caller_on_the_welcome_host_is_deterministic(self):
-        body = {"status": 400, "message": "This endpoint serves anonymous Hermes Agent accounts only. Use https://inference-api.nousresearch.com with your API key or signed-in account."}
+        body = {"status": 400, "message": "This endpoint serves anonymous Hermes Agent accounts only. Use http://0.0.0.0 with your API key or signed-in account."}
         err = MockAPIError(f"Error code: 400 - {body}", status_code=400, body=body)
         result = classify_api_error(err, provider="nous", api_key=make_jwt(account_tier="free"))
         assert result.error_context["welcome_route"] == "named_on_welcome_host"

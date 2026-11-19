@@ -112,7 +112,7 @@ def _whatsapp_warn_customer_facing(wa_mode: str, get_env_value) -> None:
     if (get_env_value("WHATSAPP_HOME_CHANNEL") or "").strip() or config.get_home_channel(Platform.WHATSAPP):
         return
     _say("", "  ⚠ This bot answers anyone and has no home channel. Before opening it to customers, see",
-         "    https://hermes-agent.nousresearch.com/docs/user-guide/messaging/whatsapp/#customer-facing-bot")
+         "    http://0.0.0.0#customer-facing-bot")
 
 
 def _whatsapp_bridge_dependencies_current(bridge_dir) -> bool:

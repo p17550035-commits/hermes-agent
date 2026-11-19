@@ -990,7 +990,7 @@ class TestBlockedResponseCapture:
         class Agent(RateLimitCreditsMixin):
             provider = "nous"
             model = "example/model-c"
-            base_url = "https://inference-api.nousresearch.com/v1"
+            base_url = "http://0.0.0.0"
             _credits_state = None
             _credits_session_start_micros = None
             _credits_latch = new_credits_latch()
@@ -1123,7 +1123,7 @@ class TestBlockedResponseCapture:
         with patch("model_tools.get_tool_definitions", return_value=[]), \
                 patch("model_tools.check_toolset_requirements", return_value={}), \
                 patch("agent.process_bootstrap.OpenAI"):
-            agent = AIAgent(api_key="test-key-1234567890", base_url="https://inference-api.nousresearch.com/v1",
+            agent = AIAgent(api_key="test-key-1234567890", base_url="http://0.0.0.0",
                             quiet_mode=True, skip_context_files=True, skip_memory=True)
         agent.provider = provider
         h = _window_headers(10_000, source=None)
@@ -1192,7 +1192,7 @@ class TestRefusalReadsAsTheStopLine:
     def _agent(self, **state_kw):
         state = _state(window_day_used_bp=10_000, spend_source=None, **state_kw)
         return SimpleNamespace(_credits_state=state, _credits_latch=new_credits_latch(), model="example/model-b",
-                               base_url="https://inference-api.nousresearch.com/v1")
+                               base_url="http://0.0.0.0")
 
     def test_the_refusal_text_is_the_stop_line(self):
         from agent.conversation_loop import _usage_window_refusal
@@ -1286,7 +1286,7 @@ class TestRefusalReadsAsTheStopLine:
         (which on desktop meant an "Out of credits" card + toast + banner)."""
         from agent.conversation_loop import _usage_window_refusal
         quiet = SimpleNamespace(_credits_state=_state(), _credits_latch=new_credits_latch(), model="example/model-b",
-                                base_url="https://inference-api.nousresearch.com/v1")
+                                base_url="http://0.0.0.0")
         refused = SimpleNamespace(error_context={"usage_window": True},
                                   message="Your included Hermes usage for this week is used up.")
         assert _usage_window_refusal(quiet, refused)[0] == "Your included Hermes usage for this week is used up."
@@ -1317,7 +1317,7 @@ class TestRefusalReadsAsTheStopLine:
         monkeypatch.setattr(cl, "_billing_or_entitlement_message", lambda **kw: "Add credits to keep going now: https://x")
         classified = SimpleNamespace(billing_unverified=False, retryable=False, reason=SimpleNamespace(value="billing"))
         kw = dict(classified=classified, summary="HTTP 402", messages=[], api_call_count=1,
-                  provider="nous", base_url="https://inference-api.nousresearch.com/v1", model="m")
+                  provider="nous", base_url="http://0.0.0.0", model="m")
         sentence = "You've hit your daily limit · resets 15:56 · /topup to add credits"
         limit = {"gauge_id": "day", "scope": "all", "message": sentence, "credits": {"action": "add_credits"},
                  "suggestions": [{"model": "a/b:free", "label": "A", "note": "free", "provider": "nous"}]}

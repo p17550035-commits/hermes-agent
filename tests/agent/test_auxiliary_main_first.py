@@ -274,7 +274,7 @@ class TestResolveVisionMainFirst:
         """
         nous_client = MagicMock()
         nous_client.api_key = "jwt-test"
-        nous_client.base_url = "https://inference-api.nousresearch.com/v1"
+        nous_client.base_url = "http://0.0.0.0"
 
         def fake_try_nous(vision=False):
             seen["vision"] = vision

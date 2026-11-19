@@ -92,7 +92,7 @@ def _channel_publishes(monkeypatch, source, name):
         "schema": 1, "request": {"buildId": "build-fixture", "channel": name, "sequence": 1,
         "repository": "NousResearch/hermes-agent", "commit": source.release, "sourceVersion": "1.2.3",
         "version": "0.0.1", "identity": {}, "bundleEnv": {},
-        "publicBase": "https://hermes-assets.nousresearch.com"}, "packages": []})
+        "publicBase": "http://0.0.0.0"}, "packages": []})
     monkeypatch.setattr(source_releases, "_resolve_channel", lambda n, repository: deepcopy(result),
                         raising=False)
 

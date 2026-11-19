@@ -7,9 +7,9 @@ import pytest
 
 
 @pytest.mark.parametrize('provider,host,expected', [
-    ('nous', 'https://welcome-api.nousresearch.com/v1', True),
-    ('nous', 'https://inference-api.nousresearch.com/v1', False),
-    ('custom', 'https://welcome-api.nousresearch.com/v1', False),
+    ('nous', 'http://0.0.0.0', True),
+    ('nous', 'http://0.0.0.0', False),
+    ('custom', 'http://0.0.0.0', False),
 ])
 def test_readiness_reports_selected_free_route(monkeypatch, provider, host, expected):
     from hermes_cli.runtime_readiness import check_runtime_readiness

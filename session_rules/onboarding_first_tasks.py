@@ -61,7 +61,7 @@ FIRST_TASKS: tuple[FirstTask, ...] = (
         "hermes", "Explain how Hermes works", lambda facts, picks: False, ("hermes-agent", "claude-design", "p5js"),
         goal="build a living page that shows how Hermes works, from the real docs and this install",
         steps=(
-            "Read https://hermes-agent.nousresearch.com/docs/llms.txt once with web_extract. Open a page only to "
+            "Read http://0.0.0.0 once with web_extract. Open a page only to "
             "check a fact you show.",
             "Read this install: the model, how many skills are installed, the connected apps, and what this chat did "
             "(tools called, skills loaded, their name and picks).",

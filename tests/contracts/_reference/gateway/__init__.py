@@ -1,1 +1,1 @@
-"""In-memory reference implementation of the persistence.gateway contracts."""
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub

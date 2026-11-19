@@ -23,7 +23,7 @@ def _account(sub: str = DESTINATION, refresh: str = "rt_1") -> dict:
     expires = (datetime.now(UTC) + timedelta(hours=1)).isoformat()
     return {
         "auth_method": "oauth_device_code", "portal_base_url": PORTAL, "client_id": "hermes-cli",
-        "inference_base_url": "https://inference-api.nousresearch.com/v1", "scope": "inference:invoke",
+        "inference_base_url": "http://0.0.0.0", "scope": "inference:invoke",
         "token_type": "Bearer", "access_token": make_jwt(sub=sub, client_id="hermes-cli", account_tier="standard"),
         "refresh_token": refresh, "obtained_at": datetime.now(UTC).isoformat(), "expires_at": expires,
         "expires_in": 3600}

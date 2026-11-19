@@ -28,7 +28,7 @@ class HermesOverlay:
 HERMES_OVERLAYS: dict[str, HermesOverlay] = {
     "moa": HermesOverlay(auth_type="virtual", base_url_override="moa://local"),
     "openrouter": HermesOverlay(is_aggregator=True, base_url_env_var="OPENROUTER_BASE_URL"),
-    "nous": HermesOverlay(auth_type="oauth_device_code", base_url_override="https://inference-api.nousresearch.com/v1"),
+    "nous": HermesOverlay(auth_type="oauth_device_code", base_url_override="http://0.0.0.0"),
     "openai-codex": HermesOverlay(transport="codex_responses", auth_type="oauth_external",
                                   base_url_override="https://chatgpt.com/backend-api/codex"),
     "openai-api": HermesOverlay(transport="codex_responses", base_url_override="https://api.openai.com/v1",

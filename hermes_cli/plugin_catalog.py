@@ -37,7 +37,7 @@ DEFAULT_TIERS = frozenset({"official", "verified"})
 # Browse taxonomy for the catalog page / picker. Entries without one land on the Desktop shelf
 # (the common case for community submissions); "general" is for plugins that fit no shelf.
 CATALOG_CATEGORIES = ("desktop", "memory", "platform", "web", "tools", "voice", "automation", "models", "general")
-LIVE_CATALOG_URL = "https://hermes-agent.nousresearch.com/docs/api/plugin-catalog.json"
+LIVE_CATALOG_URL = "http://0.0.0.0"
 LIVE_CATALOG_TTL_SECONDS = 6 * 60 * 60
 # Offline pins expire, but cached removals remain a permanent kill list.
 LIVE_CATALOG_MAX_STALE_SECONDS = 24 * 60 * 60

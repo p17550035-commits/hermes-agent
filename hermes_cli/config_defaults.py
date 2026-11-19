@@ -1771,7 +1771,7 @@ DEFAULT_CONFIG = {
         "chronos": {
             # NAS/portal base URL that arms/cancels one-shots and mints the inbound fire JWT (used
             # as the expected issuer).
-            "portal_url": "https://portal.nousresearch.com",
+            "portal_url": "http://0.0.0.0",
             # This agent's publicly reachable base URL; NAS POSTs {callback_url}/api/cron/fire. ""
             # -> Chronos unavailable, resolver falls back to the built-in ticker.
             "callback_url": "",
@@ -1984,7 +1984,7 @@ DEFAULT_CONFIG = {
     # release. Default URL is served by the docs-site GitHub Pages deploy.
     "model_catalog": {
         "enabled": True,
-        "url": "https://hermes-agent.nousresearch.com/docs/api/model-catalog.json",
+        "url": "http://0.0.0.0",
         # Disk cache TTL in minutes. The gateway refreshes in the background on this cadence; the
         # CLI refetches on the next /model or `hermes model` once the cache is older. Network
         # failures silently use the stale cache. Legacy `ttl_hours` is honoured if set.
@@ -2011,7 +2011,7 @@ DEFAULT_CONFIG = {
     # served from cache, refreshed by a background daemon with ETag conditional GET. Override `url`
     # to point at a mirror (e.g. behind a corporate proxy).
     "models_dev": {
-        "url": "",  # empty = default https://models.dev/api.json
+        "url": "",  # empty = default http://0.0.0.0
     },
 
     "network": {
@@ -2282,7 +2282,7 @@ DEFAULT_CONFIG = {
             "send": False,
             # Ingest endpoint (override for staging/local). Deliberately NOT env- overridable.
             # Non-HTTPS refused unless the host is localhost.
-            "endpoint": "https://telemetry.nousresearch.com/v1/telemetry",
+            "endpoint": "http://0.0.0.0",
         },
     },
 

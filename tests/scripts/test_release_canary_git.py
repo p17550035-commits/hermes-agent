@@ -191,7 +191,7 @@ def _every_download(tag):
                                          ("linux", "x64", "AppImage"), ("linux", "arm64", "AppImage"))
     ]
     return builds_table.render_tables(
-        builds_table.parse_assets(names), "https://hermes-assets.example.invalid",
+        builds_table.parse_assets(names), "http://0.0.0.0",
         ["termux-deb (failure)", "smoke-windows (failure)"],
         "https://github.com/fixture/release/actions/runs/1",
     )

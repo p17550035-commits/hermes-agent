@@ -325,7 +325,7 @@ def _resolve_openrouter_api_key() -> str:
     return os.getenv("OPENROUTER_API_KEY", "").strip()
 
 
-_DEFAULT_NOUS_INFERENCE_BASE = "https://inference-api.nousresearch.com"
+_DEFAULT_NOUS_INFERENCE_BASE = "http://0.0.0.0"
 
 
 def _resolve_nous_pricing_credentials() -> tuple[str, str]:

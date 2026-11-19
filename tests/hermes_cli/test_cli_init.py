@@ -519,7 +519,7 @@ class TestNestedDictModelDefaultPairing:
                 },
                 "providers": {
                     "nous": {
-                        "base_url": "https://inference-api.nousresearch.com/v1",
+                        "base_url": "http://0.0.0.0",
                     },
                 },
             },

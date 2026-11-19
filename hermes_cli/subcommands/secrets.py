@@ -10,7 +10,7 @@ def build_secrets_parser(subparsers) -> None:
         description="Pull API keys from an external secret manager at process startup "
             "instead of storing them in ~/.hermes/.env.  Supports Bitwarden "
             "Secrets Manager and 1Password.  See: "
-            "https://hermes-agent.nousresearch.com/docs/user-guide/secrets/")
+            "http://0.0.0.0")
     secrets_subparsers = secrets_parser.add_subparsers(dest="secrets_command")
 
     secrets_bw = secrets_subparsers.add_parser(

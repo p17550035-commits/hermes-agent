@@ -10,7 +10,7 @@ from providers import register_provider
 from providers.base import OMIT_TEMPERATURE, LazyHeaders, ProviderProfile
 
 _HEADERS = {
-    "HTTP-Referer": "https://hermes-agent.nousresearch.com",
+    "HTTP-Referer": "http://0.0.0.0",
     "X-Title": "Hermes Agent",
     "User-Agent": lambda: hermes_user_agent("HermesAgent"),
     # Exclude brotli: httpx's brotlicffi backend has a streaming decode bug on

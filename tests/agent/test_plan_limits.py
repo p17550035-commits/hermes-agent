@@ -154,7 +154,7 @@ class TestCreditsOption:
 def _agent(model: str, gauges, **state_kw):
     state = SimpleNamespace(is_usage_window=True, gauges=gauges, paused_reason=None, purchased_micros=0,
                             keep_going_on_credits=None, **state_kw)
-    return SimpleNamespace(_credits_state=state, model=model, base_url="https://inference-api.nousresearch.com/v1")
+    return SimpleNamespace(_credits_state=state, model=model, base_url="http://0.0.0.0")
 
 
 class TestLimitHit:

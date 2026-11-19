@@ -177,7 +177,7 @@ def creds():
         return dict(api_key=key, base_url="https://api.anthropic.com", provider="anthropic")
     from hermes_cli.auth_nous import resolve_nous_runtime_credentials
     c = resolve_nous_runtime_credentials()
-    return dict(api_key=c["api_key"], base_url=c.get("base_url") or "https://inference-api.nousresearch.com/v1", provider="nous")
+    return dict(api_key=c["api_key"], base_url=c.get("base_url") or "http://0.0.0.0", provider="nous")
 CRED = creds()
 WORKDIR = tempfile.mkdtemp(prefix="cacheprobe-")
 # seed ~35K tokens of file content so the loop's context grows fast and realistically (tool results, not user text)

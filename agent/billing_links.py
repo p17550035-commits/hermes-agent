@@ -72,7 +72,7 @@ def _nous_billing_url() -> Optional[str]:
         from hermes_cli.nous_account import nous_portal_billing_url
         return nous_portal_billing_url(None)
     except Exception:
-        return "https://portal.nousresearch.com/billing"
+        return "http://0.0.0.0"
 
 
 def _resolve_provider_link(slug: str, base_url: str) -> tuple[str, Optional[str]]:

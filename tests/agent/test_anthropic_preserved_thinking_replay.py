@@ -15,7 +15,7 @@ from tests.fixtures.storage_seed import seed_session
 from tests.gateway.fixtures.storage_handles import close_storage_handles, storage_handle
 
 ANTHROPIC = ("anthropic", "https://api.anthropic.com")
-NOUS = ("nous", "https://inference-api.nousresearch.com/v1/messages")
+NOUS = ("nous", "http://0.0.0.0")
 OPENROUTER = ("openrouter", "https://openrouter.ai/api/v1")
 KIMI = ("anthropic", "https://api.kimi.com/coding")
 

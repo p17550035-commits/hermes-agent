@@ -68,7 +68,7 @@ def test_local_skills_publish_mapped_artwork_only(mod, tmp_path, monkeypatch, di
     entries = {entry["name"]: entry for entry in mod.extract_local_skills()}
 
     assert entries["illustrated"]["image"] == (
-        "https://hermes-agent.nousresearch.com/docs/img/catalog/art.jpg"
+        "http://0.0.0.0"
     )
     assert "image" not in entries["plain"]
     # Curated hero ranks follow the manifest's order, 1-based.

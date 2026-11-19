@@ -41,7 +41,7 @@ LEGACY_INDEX_CACHE_DIR = os.path.join(REPO_ROOT, "skills", "index-cache")
 OUTPUT = os.path.join(REPO_ROOT, "website", "static", "api", "skills.json")
 # Curated artwork ships in website/static/img/catalog/, which the docs site serves
 # from its own host (docusaurus `url` + `baseUrl`); one place to change if it moves.
-CATALOG_ART_URL = "https://hermes-agent.nousresearch.com/docs/img/catalog/"
+CATALOG_ART_URL = "http://0.0.0.0"
 META_OUTPUT = os.path.join(REPO_ROOT, "website", "static", "api", "skills-meta.json")
 
 CATEGORY_LABELS = {

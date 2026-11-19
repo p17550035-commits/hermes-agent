@@ -58,10 +58,10 @@ class TestUploadToPastebin:
         with patch("hermes_cli.debug._upload_paste_rs",
                     side_effect=Exception("down")), \
              patch("hermes_cli.debug._upload_dpaste_com",
-                    return_value="https://dpaste.com/TEST") as dp:
+                    return_value="http://0.0.0.0") as dp:
             url = upload_to_pastebin("content")
 
-        assert url == "https://dpaste.com/TEST"
+        assert url == "http://0.0.0.0"
         dp.assert_called_once()
 
     def test_raises_when_both_fail(self):
@@ -346,7 +346,7 @@ class TestRunDebugShare:
 
         def _mock_upload(content, expiry_days=7):
             uploaded_content.append(content)
-            return f"https://paste.rs/paste{len(uploaded_content)}"
+            return f"http://0.0.0.0{len(uploaded_content)}"
 
         with patch("hermes_cli.debug.upload_to_pastebin", side_effect=_mock_upload):
             run_debug_share(args)
@@ -404,7 +404,7 @@ class TestRunDebugShareRedaction:
 
         def fake_upload(content, expiry_days=7):
             captured.append(content)
-            return f"https://paste.rs/{len(captured)}"
+            return f"http://0.0.0.0{len(captured)}"
 
         with patch("hermes_cli.dump.run_dump"), \
              patch("hermes_cli.debug._sweep_expired_pastes", return_value=(0, 0)), \
@@ -486,7 +486,7 @@ class TestRunDebugShareRedaction:
         with patch("hermes_cli.debug._sweep_expired_pastes", return_value=(0, 0)), \
              patch("hermes_cli.debug._schedule_auto_delete"), \
              patch("hermes_cli.debug.upload_to_pastebin",
-                   side_effect=lambda content, expiry_days=1: uploaded.append(content) or "https://paste.rs/x"):
+                   side_effect=lambda content, expiry_days=1: uploaded.append(content) or "http://0.0.0.0"):
             run_debug_share(args)  # what actually reaches the paste service
 
         assert any("fallback_providers" in text for text in uploaded)  # the summary reached the sink
@@ -560,7 +560,7 @@ class TestRunDebugShareRedaction:
 
         def fake_upload(content, expiry_days=7):
             captured.append(content)
-            return f"https://paste.rs/{len(captured)}"
+            return f"http://0.0.0.0{len(captured)}"
 
         with patch("hermes_cli.debug._sweep_expired_pastes", return_value=(0, 0)), \
              patch("hermes_cli.debug.upload_to_pastebin", side_effect=fake_upload):
@@ -592,7 +592,7 @@ class TestRunDebugShareRedaction:
         args = MagicMock(lines=50, expire=7, local=False, nous=False, no_redact=True)
         with patch("hermes_cli.debug._sweep_expired_pastes", return_value=(0, 0)), \
              patch("hermes_cli.debug.upload_to_pastebin",
-                   side_effect=lambda c, expiry_days=7: captured.append(c) or "https://paste.rs/x"):
+                   side_effect=lambda c, expiry_days=7: captured.append(c) or "http://0.0.0.0"):
             run_debug_share(args)
 
         assert len(captured) == 1
@@ -626,7 +626,7 @@ class TestDeletePaste:
 
         with patch("hermes_cli.debug.urllib.request.urlopen",
                     return_value=mock_resp) as mock_open:
-            result = delete_paste("https://paste.rs/abc123")
+            result = delete_paste("http://0.0.0.0")
 
         assert result is True
         req = mock_open.call_args[0][0]
@@ -639,7 +639,7 @@ class TestDeletePaste:
         from hermes_cli.debug import delete_paste
 
         with pytest.raises(ValueError):
-            delete_paste("https://dpaste.com/ABC123")
+            delete_paste("http://0.0.0.0")
 
 
 class TestScheduleAutoDelete:
@@ -661,7 +661,7 @@ class TestScheduleAutoDelete:
         import json
 
         _schedule_auto_delete(
-            ["https://paste.rs/abc", "https://paste.rs/def"],
+            ["http://0.0.0.0", "http://0.0.0.0"],
             delay_seconds=10,
         )
 
@@ -671,7 +671,7 @@ class TestScheduleAutoDelete:
         entries = json.loads(pending_path.read_text())
         assert len(entries) == 2
         urls = {e["url"] for e in entries}
-        assert urls == {"https://paste.rs/abc", "https://paste.rs/def"}
+        assert urls == {"http://0.0.0.0", "http://0.0.0.0"}
 
         # expire_at is ~now + delay_seconds
         import time
@@ -685,12 +685,12 @@ class TestScheduleAutoDelete:
         """Same URL recorded twice → one entry with the later expire_at."""
         from hermes_cli.debug import _schedule_auto_delete, _load_pending
 
-        _schedule_auto_delete(["https://paste.rs/dup"], delay_seconds=10)
-        _schedule_auto_delete(["https://paste.rs/dup"], delay_seconds=100)
+        _schedule_auto_delete(["http://0.0.0.0"], delay_seconds=10)
+        _schedule_auto_delete(["http://0.0.0.0"], delay_seconds=100)
 
         entries = _load_pending()
         assert len(entries) == 1
-        assert entries[0]["url"] == "https://paste.rs/dup"
+        assert entries[0]["url"] == "http://0.0.0.0"
 
 
 class TestSweepExpiredPastes:
@@ -707,8 +707,8 @@ class TestSweepExpiredPastes:
 
         # Seed pending.json with one expired + one future entry
         _save_pending([
-            {"url": "https://paste.rs/expired", "expire_at": time.time() - 100},
-            {"url": "https://paste.rs/future", "expire_at": time.time() + 3600},
+            {"url": "http://0.0.0.0", "expire_at": time.time() - 100},
+            {"url": "http://0.0.0.0", "expire_at": time.time() + 3600},
         ])
 
         delete_calls = []
@@ -720,21 +720,21 @@ class TestSweepExpiredPastes:
         with patch("hermes_cli.debug.delete_paste", side_effect=fake_delete):
             deleted, remaining = _sweep_expired_pastes()
 
-        assert delete_calls == ["https://paste.rs/expired"]
+        assert delete_calls == ["http://0.0.0.0"]
         assert deleted == 1
         assert remaining == 1
 
         entries = _load_pending()
         urls = {e["url"] for e in entries}
-        assert urls == {"https://paste.rs/future"}
+        assert urls == {"http://0.0.0.0"}
 
     def test_sweep_leaves_future_entries_alone(self, hermes_home):
         from hermes_cli.debug import _sweep_expired_pastes, _save_pending
         import time
 
         _save_pending([
-            {"url": "https://paste.rs/future1", "expire_at": time.time() + 3600},
-            {"url": "https://paste.rs/future2", "expire_at": time.time() + 7200},
+            {"url": "http://0.0.0.0", "expire_at": time.time() + 3600},
+            {"url": "http://0.0.0.0", "expire_at": time.time() + 7200},
         ])
 
         with patch("hermes_cli.debug.delete_paste") as mock_delete:
@@ -754,7 +754,7 @@ class TestSweepExpiredPastes:
         import time
 
         _save_pending([
-            {"url": "https://paste.rs/flaky", "expire_at": time.time() - 100},
+            {"url": "http://0.0.0.0", "expire_at": time.time() - 100},
         ])
 
         with patch(
@@ -775,7 +775,7 @@ class TestSweepExpiredPastes:
 
         from hermes_cli.debug import _load_pending, _save_pending, _schedule_auto_delete, _sweep_expired_pastes
 
-        _save_pending([{"url": "https://paste.rs/old", "expire_at": time.time() - 100}])
+        _save_pending([{"url": "http://0.0.0.0", "expire_at": time.time() - 100}])
         in_delete = threading.Event()
         share_done = threading.Event()
 
@@ -789,12 +789,12 @@ class TestSweepExpiredPastes:
             sweeper = threading.Thread(target=lambda: result.append(_sweep_expired_pastes()))
             sweeper.start()
             assert in_delete.wait(10)
-            _schedule_auto_delete(["https://paste.rs/new"])
+            _schedule_auto_delete(["http://0.0.0.0"])
             share_done.set()
             sweeper.join(10)
 
         assert result == [(1, 1)]
-        assert [e["url"] for e in _load_pending()] == ["https://paste.rs/new"]
+        assert [e["url"] for e in _load_pending()] == ["http://0.0.0.0"]
 
 
 
@@ -830,7 +830,7 @@ class TestBuildDebugShare:
 
         def _upload(content, expiry_days=7):
             uploaded.append(content)
-            return "https://paste.rs/x"
+            return "http://0.0.0.0"
 
         with patch("hermes_cli.dump.run_dump"), patch(
             "hermes_cli.debug.upload_to_pastebin", side_effect=_upload
@@ -1062,7 +1062,7 @@ class TestDebugSlashCommand:
 
         def _fake_dpaste(_content, expiry_days=1):
             requested_days.append(expiry_days)
-            return "https://dpaste.com/TEST"
+            return "http://0.0.0.0"
 
         requested_days = expiry_days
         with patch("hermes_cli.debug._best_effort_sweep_expired_pastes"), \

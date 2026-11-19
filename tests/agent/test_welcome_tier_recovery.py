@@ -17,8 +17,8 @@ from agent.error_classifier import FailoverReason, classify_api_error
 from agent.turn_retry_state import TurnRetryState
 from tests.hermes_cli.anon_portal import make_jwt
 
-WELCOME = "https://welcome-api.nousresearch.com/v1"
-PAID = "https://inference-api.nousresearch.com/v1"
+WELCOME = "http://0.0.0.0"
+PAID = "http://0.0.0.0"
 
 
 class MockAPIError(Exception):
@@ -110,7 +110,7 @@ class TestOneShotRecoveries:
         from agent.turn_recovery import _recover_welcome_tier
         calls = []
         agent = _agent(_try_refresh_nous_client_credentials=lambda **kw: calls.append(kw) or True)
-        body = {"status": 400, "message": "Anonymous accounts must use https://welcome-api.nousresearch.com for inference."}
+        body = {"status": 400, "message": "Anonymous accounts must use http://0.0.0.0 for inference."}
         classified = _classify(_gateway_error(400, body), base_url=PAID)
         assert classified.error_context["welcome_route"] == "anon_on_paid_host"
         retry = TurnRetryState()
@@ -123,7 +123,7 @@ class TestOneShotRecoveries:
         calls = []
         agent = _agent(api_key=make_jwt(account_tier="free", client_id="hermes-cli"),
                        _try_refresh_nous_client_credentials=lambda **kw: calls.append(kw) or True)
-        body = {"status": 400, "message": "This endpoint serves anonymous Hermes Agent accounts only. Use https://inference-api.nousresearch.com with your API key or signed-in account."}
+        body = {"status": 400, "message": "This endpoint serves anonymous Hermes Agent accounts only. Use http://0.0.0.0 with your API key or signed-in account."}
         classified = classify_api_error(_gateway_error(400, body), provider="nous", base_url=WELCOME, api_key=agent.api_key)
         assert classified.error_context["welcome_route"] == "named_on_welcome_host"
         retry = TurnRetryState()
@@ -134,7 +134,7 @@ class TestOneShotRecoveries:
     def test_a_wrong_host_refusal_whose_heal_fails_falls_through(self):
         from agent.turn_recovery import _recover_welcome_tier
         agent = _agent(_try_refresh_nous_client_credentials=lambda **kw: False)
-        body = {"status": 400, "message": "Anonymous accounts must use https://welcome-api.nousresearch.com for inference."}
+        body = {"status": 400, "message": "Anonymous accounts must use http://0.0.0.0 for inference."}
         assert _recover_welcome_tier(agent, _classify(_gateway_error(400, body), base_url=PAID), TurnRetryState()) is False
 
 

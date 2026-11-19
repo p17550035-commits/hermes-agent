@@ -61,7 +61,7 @@ def _run_portal_one_shot(config: dict) -> None:
     _info(None, "  One subscription, 300+ models, plus the Tool Gateway:",
           "    web search, image generation, TTS, browser automation",
           "    — all routed through your Nous Portal sub.", None,
-          "  Sign up: https://portal.nousresearch.com/manage-subscription", None)
+          "  Sign up: http://0.0.0.0", None)
 
     def _on_error(exc: Exception) -> None:
         from hermes_cli.auth_error_copy import provider_setup_failure_lines
@@ -123,7 +123,7 @@ def _quick_setup_nous_portal(config: dict) -> None:
     print_header("Nous Portal", gap=True)
     _info("One subscription, 300+ models, plus the Tool Gateway:",
           "  web search, image generation, TTS, browser automation.",
-          "Sign up: https://portal.nousresearch.com/manage-subscription", None)
+          "Sign up: http://0.0.0.0", None)
 
     def _on_error(exc: Exception) -> None:
         from hermes_cli.auth_error_copy import provider_setup_failure_lines

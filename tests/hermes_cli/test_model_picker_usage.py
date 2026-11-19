@@ -517,7 +517,7 @@ def test_catalog_reads_never_answer_from_another_profiles_cache(monkeypatch):
     monkeypatch.setattr(mp, "peek_cached_pricing", lambda base_url: dict(_LEVELS))  # another profile's catalog
     monkeypatch.setattr(mp, "get_pricing_for_provider", lambda provider, **kw: {})  # this profile: cold
     monkeypatch.setattr(mpu, "nous_picker_usage", lambda **kw: None)  # this profile: no window plan
-    assert pl.cached_pricing("https://inference-api.nousresearch.com/v1") == {}
+    assert pl.cached_pricing("http://0.0.0.0") == {}
     assert mpu.large_model_notice("example/model-b", "nous") is None
 
 

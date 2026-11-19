@@ -90,7 +90,7 @@ def test_nous_portal_compacts_on_its_1h_window_unless_a_ceiling_caps_it(tmp_path
     """Nous Portal keeps 1h like Anthropic, so it compacts at the budget's end; a configured
     ``{nous: 5m}`` ceiling makes it a short window again."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path))
-    nous = {"provider": "nous", "base_url": "https://inference-api.nousresearch.com/v1"}
+    nous = {"provider": "nous", "base_url": "http://0.0.0.0"}
     agent = _spend_budget(_idle_chat(monkeypatch, **nous))
     assert cache_expiry_compaction_due(agent, now=_SENT + 54 * 60) == (True, "due")
 

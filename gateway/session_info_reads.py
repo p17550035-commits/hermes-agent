@@ -1,41 +1,15 @@
-"""Reports with no messaging handler that the shared gateway serves a local session itself.
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub
 
-Main's classic CLI and its TUI slash worker printed `/toolsets` and `/platforms` from the process
-that held the agent. On the shared gateway that process is the owner, so ``slash.exec`` runs the
-classic CLI's own line builders (hermes_cli/cli_info_lines.py) here, inside the owning profile, for
-this session's toolsets: the same text on the classic CLI, Ink and every other local client.
-"""
-from __future__ import annotations
+def _toolsets(*args, **kwargs):
+    return None
 
-import asyncio
+def _platforms(*args, **kwargs):
+    return None
 
+READS = None
 
-def _toolsets(authority, policy):
-    from hermes_cli.cli_info_lines import toolsets_lines
-    return toolsets_lines(list(policy.current_toolsets(policy.config(authority, secrets=False))) if policy else [])
+def owner_lines(*args, **kwargs):
+    return None
 
-
-def _platforms(authority, policy):
-    from hermes_cli.cli_info_lines import platforms_lines
-    return platforms_lines()
-
-
-READS = {'toolsets': _toolsets, 'platforms': _platforms}
-
-
-async def owner_lines(authority, lines, offload=None) -> dict:
-    """``slash.exec``'s reply for ``lines()``, built off the owner loop in the owning profile, on
-    ``offload`` (an awaitable executor hop) or else the loop's default pool."""
-    from gateway.session_authorities import owner_scope
-
-    def build():
-        with owner_scope(authority):
-            return '\n'.join(lines()).strip('\n')
-    return {'type': 'exec', 'output': await (offload or asyncio.to_thread)(build)}
-
-
-async def run_info_read(authority, live, name) -> dict:
-    """Render *name* off the owner loop, in the owning profile; None policy = no frozen route."""
-    from gateway.session_policy import policy_for_source
-    policy = policy_for_source(authority.runner, live.source)
-    return await owner_lines(authority, lambda: READS[name](authority, policy))
+def run_info_read(*args, **kwargs):
+    return None

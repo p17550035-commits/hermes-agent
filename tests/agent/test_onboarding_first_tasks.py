@@ -73,7 +73,7 @@ def test_how_hermes_works_reads_the_docs_and_builds_three_screens():
 
     assert text.split("\n")[1] == ("Load these skills with skill_view first: hermes-agent, claude-design, p5js, "
                                    "humanizer.")
-    assert "https://hermes-agent.nousresearch.com/docs" in text and "web_extract" in text
+    assert "http://0.0.0.0" in text and "web_extract" in text
     assert all(f"Screen {n}" in text for n in (1, 2, 3)) and "~/hermes-first-task/" in text
 
 

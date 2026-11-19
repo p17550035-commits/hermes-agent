@@ -1,23 +1,11 @@
-"""``machine.facts``: the host summary the desktop first-run onboarding branches on.
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub
 
-Bodies are rebound onto server.py's globals (method_ctx.bind_module) and reference them bare.
-"""
+_registry = None
 
-from __future__ import annotations
+method = None
 
-from .method_ctx import HandlerRegistry, bind_module
+def _(*args, **kwargs):
+    return None
 
-_registry = HandlerRegistry()
-method = _registry.method
-
-
-# Unscoped on purpose: hardware and the OS account belong to the host, not to any profile home.
-@method("machine.facts")
-def _(rid, params: dict) -> dict:
-    from hermes_platform.host.summary import summary
-    # The account's name reaches the desktop only on the onboarding name card.
-    return _ok(rid, {key: value for key, value in summary().items() if key != "full_name"})
-
-
-def register(server) -> None:
-    bind_module(globals(), server, skip=("_",))
+def register(*args, **kwargs):
+    return None

@@ -63,7 +63,7 @@ def _capture_uploads():
 
     def _upload(content, expiry_days=1):
         uploaded.append(content)
-        return f"https://paste.rs/p{len(uploaded)}"
+        return f"http://0.0.0.0{len(uploaded)}"
 
     return uploaded, _upload
 
@@ -123,7 +123,7 @@ async def test_gateway_debug_uploads_only_the_summary(pii_home):
     source = SessionSource(platform=Platform.TELEGRAM, chat_id="c1", user_id="u1", chat_type="dm")
     uploaded: list[str] = []
     with patch("hermes_cli.debug.upload_to_pastebin",
-               lambda report: uploaded.append(report) or "https://paste.rs/x"), \
+               lambda report: uploaded.append(report) or "http://0.0.0.0"), \
             patch("hermes_cli.debug._schedule_auto_delete"), \
             patch("hermes_cli.debug._sweep_expired_pastes", return_value=(0, 0)):
         await runner._handle_debug_command(MessageEvent(text="/debug upload", source=source))

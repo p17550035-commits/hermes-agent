@@ -115,7 +115,7 @@ def build_dashboard_parser(
     dashboard_register_parser.add_argument(
         "--redirect-uri", dest="redirect_uri", default=None,
         help="Optional public HTTPS OAuth redirect URI for the dashboard, e.g. "
-            "https://hermes.example.com/auth/callback. Omit for localhost-only use.")
+            "http://0.0.0.0 Omit for localhost-only use.")
     dashboard_register_parser.add_argument(
         "--portal-url", dest="portal_url", default=None,
         help="Override the Nous Portal base URL for registration (default: the "

@@ -1,16 +1,6 @@
-"""Hold only execution scheduling after a real API commit and HTTP ACK."""
-import runpy
-from gateway.session_authority import SessionAuthority, admission_row
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub
 
-schedule = SessionAuthority._schedule
+schedule = None
 
-
-def hold_safe(self, ref):
-    pending = [admission_row(record) for record in self.persistence.admissions.list(session_id=ref.session_id)]
-    if any(row['payload'].get('text') == 'SAFE_QUEUE' for row in pending):
-        return
-    return schedule(self, ref)
-
-
-SessionAuthority._schedule = hold_safe
-runpy.run_module('gateway.run', run_name='__main__')
+def hold_safe(*args, **kwargs):
+    return None

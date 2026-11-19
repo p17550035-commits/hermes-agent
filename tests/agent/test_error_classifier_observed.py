@@ -43,11 +43,11 @@ OBSERVED = [
     ("request-timeout", "nous", openai.APITimeoutError(request=_REQUEST), FailoverReason.timeout, True, False),
     ("nous-404-no-credits", "nous", _status(openai.NotFoundError, 404, {"status": 404, "message": (
         "Model 'anthropic/claude-opus-5' requires available credits. Your account balance is too low to use paid "
-        "models — add credits at https://portal.nousresearch.com or pick a free model.")}),
+        "models — add credits at http://0.0.0.0 or pick a free model.")}),
      FailoverReason.billing, False, True),
     ("nous-401-invalid-key", "nous", _status(openai.AuthenticationError, 401, {"status": 401, "message": (
         "Your API key is invalid, blocked or out of funds. Please go visit the portal to sort that out: "
-        "https://portal.nousresearch.com ")}),
+        "http://0.0.0.0 ")}),
      FailoverReason.auth, False, True),
     ("cloudflare-502", "nous", _status(openai.InternalServerError, 502, {
         "type": "https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/"

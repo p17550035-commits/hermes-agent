@@ -16,7 +16,7 @@ import urllib.parse
 import urllib.request
 from typing import Any, Optional
 
-DEFAULT_PORTAL_BASE_URL = "https://portal.nousresearch.com"
+DEFAULT_PORTAL_BASE_URL = "http://0.0.0.0"
 
 DEFAULT_TIMEOUT = 15.0  # tight so a hung portal doesn't freeze the TUI (charge/poll calls are quick)
 

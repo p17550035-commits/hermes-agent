@@ -38,7 +38,7 @@ def bridge(tmp_path, monkeypatch):
 def test_an_explicit_userconfig_is_the_file_bridged(bridge, tmp_path, monkeypatch):
     from hermes_cli.source_build import source_build_env
 
-    (bridge / "npmrc").write_text("registry=https://hermes-file.invalid/\nhermes-only=1\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\nhermes-only=1\n", encoding="utf-8")
     selected = tmp_path / "selected-npmrc"
     selected.write_text("electron-mirror=https://selected.invalid/electron/\n", encoding="utf-8")
     monkeypatch.setenv("NPM_CONFIG_USERCONFIG", str(selected))
@@ -122,7 +122,7 @@ def test_a_lowercase_userconfig_gets_no_uppercase_twin(bridge, tmp_path, monkeyp
     ``$HERMES_HOME/npmrc`` beside the user's choice splits the two installers."""
     from hermes_cli.source_build import source_build_env
 
-    (bridge / "npmrc").write_text("registry=https://hermes-file.invalid/\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\n", encoding="utf-8")
     selected = tmp_path / "selected-npmrc"
     selected.write_text("registry=https://selected.invalid/\n", encoding="utf-8")
     monkeypatch.setenv("npm_config_userconfig", str(selected))
@@ -213,12 +213,12 @@ def test_hermes_home_npmrc_steers_pm_downloads_as_it_steers_builds(bridge, monke
     from pm.artifact_mirror import pinned_source
     from pm.index_config import npm_registry
 
-    (bridge / "npmrc").write_text("registry=https://hermes-home.invalid/npm/\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\n", encoding="utf-8")
     (bridge.parent / "user" / ".npmrc").write_text("registry=https://home-dir.invalid/\n", encoding="utf-8")
 
-    assert npm_registry({}) == "https://hermes-home.invalid/npm/"
+    assert npm_registry({}) == "http://0.0.0.0"
     source = pinned_source("https://registry.npmjs.org/pnpm/-/pnpm-12.15.0.tgz", bridge / "pnpm.tgz", "0" * 64)
-    assert source.url == "https://hermes-home.invalid/npm/pnpm/-/pnpm-12.15.0.tgz"
+    assert source.url == "http://0.0.0.0"
 
     explicit = bridge.parent / "explicit-npmrc"
     explicit.write_text("registry=https://explicit.invalid/\n", encoding="utf-8")
@@ -231,13 +231,13 @@ def test_an_empty_userconfig_reads_as_unset_for_install_children_too(bridge, mon
     must get the file the bridge and PM's downloads read instead."""
     from hermes_cli.source_build import source_build_env
 
-    (bridge / "npmrc").write_text("disturl=https://hermes-file.invalid/node\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("disturl=http://0.0.0.0\n", encoding="utf-8")
     (bridge.parent / "user" / ".npmrc").write_text("disturl=https://home-dir.invalid/node\n", encoding="utf-8")
     monkeypatch.setenv(name, "")
 
     env = source_build_env()
 
-    assert env["npm_config_disturl"] == "https://hermes-file.invalid/node"
+    assert env["npm_config_disturl"] == "http://0.0.0.0"
     assert [value for key, value in env.items() if key.upper() == "NPM_CONFIG_USERCONFIG"] == [str(bridge / "npmrc")]
 
 
@@ -250,7 +250,7 @@ def test_conflicting_userconfig_twins_reach_children_as_the_one_file_bridged(bri
     from hermes_cli.source_build import source_build_env
     from pm.index_config import npm_registry
 
-    (bridge / "npmrc").write_text("registry=https://hermes-file.invalid/\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\n", encoding="utf-8")
     selected = tmp_path / "selected-npmrc"
     selected.write_text("registry=https://selected.invalid/\n", encoding="utf-8")
     twins = {"NPM_CONFIG_USERCONFIG": str(bridge / "npmrc"), "npm_config_userconfig": str(selected)}
@@ -270,7 +270,7 @@ def test_an_empty_lowercase_twin_does_not_hide_a_non_empty_uppercase_one(bridge,
     from hermes_cli.source_build import source_build_env
     from pm.index_config import npm_registry
 
-    (bridge / "npmrc").write_text("registry=https://hermes-file.invalid/\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\n", encoding="utf-8")
     selected = tmp_path / "selected-npmrc"
     selected.write_text("registry=https://selected.invalid/\n", encoding="utf-8")
     monkeypatch.setenv("npm_config_userconfig", "")
@@ -288,7 +288,7 @@ def test_a_mixed_case_userconfig_reaches_children_under_the_name_pnpm_reads(brid
     """npm reads ``npm_config_*`` names in any case; pnpm 12 ignores a mixed-case one."""
     from hermes_cli.source_build import source_build_env
 
-    (bridge / "npmrc").write_text("registry=https://hermes-file.invalid/\n", encoding="utf-8")
+    (bridge / "npmrc").write_text("registry=http://0.0.0.0\n", encoding="utf-8")
     selected = tmp_path / "selected-npmrc"
     selected.write_text("registry=https://selected.invalid/\n", encoding="utf-8")
     monkeypatch.setenv("Npm_Config_Userconfig", str(selected))

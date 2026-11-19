@@ -11,8 +11,8 @@ import pytest
 
 from hermes_cli import anon_auth
 
-WELCOME = "https://welcome-api.nousresearch.com/v1"
-PAID = "https://inference-api.nousresearch.com/v1"
+WELCOME = "http://0.0.0.0"
+PAID = "http://0.0.0.0"
 
 
 # ── Auxiliary client: the welcome host serves exactly one model ──────────────────────────────────

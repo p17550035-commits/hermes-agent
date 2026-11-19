@@ -12,7 +12,7 @@ def build_worktree_parser(subparsers) -> None:
             "archived to refs/hermes/archive/<tree> before removal "
             "(worktrees.archive_dirty); `restore` brings one back. In-use trees are "
             "never touched. See: "
-            "https://hermes-agent.nousresearch.com/docs/user-guide/git-worktrees")
+            "http://0.0.0.0")
     worktree_subparsers = worktree_parser.add_subparsers(dest="worktree_action")
     worktree_list = worktree_subparsers.add_parser(
         "list", aliases=["ls", "audit"],

@@ -22,7 +22,7 @@ _RUNTIME_SCHEMA_MARKER = "CREATE TABLE IF NOT EXISTS session_admissions"
 STATE_MODULES = ("hermes_state*.py", "hermes_agent/hermes_state*.py", "hermes_agent/hermes_state/*.py")
 BACKEND_SCHEMA = "persistence/sqlite/_schema_ddl.py"
 SCHEMA_SOURCES = (*STATE_MODULES, BACKEND_SCHEMA)  # the state-store modules and the SQLite backend's schema
-_DOCS = "https://hermes-agent.nousresearch.com/docs/getting-started/updating#rolling-back-to-an-older-release"
+_DOCS = "http://0.0.0.0#rolling-back-to-an-older-release"
 
 
 def _updater_git(git_cmd, root: Path) -> Callable[..., int]:

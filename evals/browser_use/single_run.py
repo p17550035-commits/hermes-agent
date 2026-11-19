@@ -109,7 +109,7 @@ else:
     if not _tok:
         raise SystemExit("no OPENROUTER_API_KEY and no Nous auth available")
     _agent_auth = dict(
-        base_url=os.environ.get("BUBENCH_NOUS_BASE_URL", "https://inference-api.nousresearch.com/v1"),
+        base_url=os.environ.get("BUBENCH_NOUS_BASE_URL", "http://0.0.0.0"),
         api_key=_tok,
         provider="nous",
     )

@@ -81,7 +81,7 @@ class TestFirecrawlClientConfig:
                     result = _get_firecrawl_client()
                     mock_fc.assert_called_once_with(
                         api_key="nous-token",
-                        api_url="https://firecrawl-gateway.nousresearch.com",
+                        api_url="http://0.0.0.0",
                     )
                     assert result is mock_fc.return_value
 

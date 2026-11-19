@@ -114,7 +114,7 @@ def captured(monkeypatch):
 
 @pytest.mark.parametrize("url", [
     "http://foreign.example:8443/plane",          # ambient non-loopback http
-    "http://config-config.nousresearch.com",       # HTTPS -> HTTP downgrade of the real default
+    "http://0.0.0.0",       # HTTPS -> HTTP downgrade of the real default
     "ftp://plane.example",
     "https://user:pw@plane.example",               # userinfo: ambiguous destination
     "https://plane.example/?next=https://evil.example",
@@ -130,7 +130,7 @@ def test_bearer_refused_before_send_for_forbidden_plane_url(monkeypatch, tmp_pat
 
 
 @pytest.mark.parametrize("url, expect", [
-    ("", "https://config-config.nousresearch.com/v1/config/self?profile=default"),   # D19 default
+    ("", "http://0.0.0.0?profile=default"),   # D19 default
     ("https://config.corp.internal:9443/plane/", "https://config.corp.internal:9443/plane/v1/config/self?profile=default"),
     ("http://localhost:8080", "http://localhost:8080/v1/config/self?profile=default"),
     ("http://127.0.0.1:9", "http://127.0.0.1:9/v1/config/self?profile=default"),

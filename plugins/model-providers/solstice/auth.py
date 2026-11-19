@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, Mapping
 
-DEFAULT_NAS_BASE_URL = "https://portal.nousresearch.com"
+DEFAULT_NAS_BASE_URL = "http://0.0.0.0"
 _CONFIG_PATH = "/api/oauth/gemini-auth/config"
 _TOKEN_PATHS = {"authorization_code": "/api/oauth/gemini-auth/exchange", "refresh_token": "/api/oauth/gemini-auth/refresh"}
 _TIMEOUT_SECONDS = 30.0

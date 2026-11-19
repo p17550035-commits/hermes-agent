@@ -51,7 +51,7 @@ class TestWireChoice:
 
 def _agent(**kw):
     a = SimpleNamespace(provider="nous", model="anthropic/claude-fable-5.1", api_mode="chat_completions",
-                        api_key="k", base_url="https://inference-api.nousresearch.com/v1", session_id="s")
+                        api_key="k", base_url="http://0.0.0.0", session_id="s")
     for k, v in kw.items():
         setattr(a, k, v)
     return a
@@ -125,7 +125,7 @@ def test_real_agent_usage_recorder_calls_the_hook_once(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(nous_wire, "maybe_switch_wire_after_first_response",
                         lambda agent, response, n: calls.append((n, nous_wire.classify_upstream(response))) or False)
-    a = AIAgent(api_key="jwt", base_url="https://inference-api.nousresearch.com/v1", provider="nous",
+    a = AIAgent(api_key="jwt", base_url="http://0.0.0.0", provider="nous",
                 api_mode="chat_completions", model="anthropic/claude-fable-5.1", session_id="t", platform="cli",
                 quiet_mode=True, skip_context_files=True, skip_memory=True, save_trajectories=False, enabled_toolsets=["file"])
     try:

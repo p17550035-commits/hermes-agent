@@ -337,7 +337,7 @@ class TestDelegateTask(unittest.TestCase):
 
     def _nous_child_rederives_api_mode_from_model(self):
         parent = _make_mock_parent(depth=0)
-        parent.base_url = "https://inference-api.nousresearch.com/v1"
+        parent.base_url = "http://0.0.0.0"
         parent.api_key = "portal-jwt"
         parent.provider = "nous"
         parent.api_mode = "anthropic_messages"
@@ -1000,7 +1000,7 @@ class TestDelegationProviderIntegration(unittest.TestCase):
         }
         parent = _make_mock_parent(depth=0)
         parent.provider = "nous"
-        parent.base_url = "https://inference-api.nousresearch.com/v1"
+        parent.base_url = "http://0.0.0.0"
         parent.api_key = "nous-key-abc"
 
         with patch("run_agent.AIAgent") as MockAgent:

@@ -9,7 +9,7 @@ import pytest
 from hermes_cli import providers as _providers
 from hermes_cli import runtime_provider as rp
 
-PORTAL = "https://inference-api.nousresearch.com/v1"
+PORTAL = "http://0.0.0.0"
 
 
 def _cfg(tmp_path, body: str, monkeypatch):

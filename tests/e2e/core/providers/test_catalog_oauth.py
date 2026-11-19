@@ -35,7 +35,7 @@ from tests.fakes.providers.catalog_oauth import NOUS_INVOKE_SCOPE, OAuthFake, ma
 pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="POSIX harness")
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
-PROD_NOUS_INFERENCE = "https://inference-api.nousresearch.com/v1"
+PROD_NOUS_INFERENCE = "http://0.0.0.0"
 TURN_TIMEOUT = 120.0
 # Public, credential-free model-metadata catalog (pricing/context lookups); never carries a vendor token.
 CREDENTIAL_FREE_HOSTS = frozenset({"models.dev:443"})

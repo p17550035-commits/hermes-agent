@@ -54,7 +54,7 @@ def test_nous_adapter_never_waits_on_a_free_tier_challenge_under_its_lock(tmp_pa
     def resolve(**_kwargs):
         seen.append(anon_challenge._background.get())
         return {"api_key": "k", "expires_at": "2099-01-01T00:00:00Z",
-                "base_url": "https://inference-api.nousresearch.com/v1"}
+                "base_url": "http://0.0.0.0"}
 
     with patch("hermes_cli.proxy.adapters.nous_portal.resolve_nous_runtime_credentials", side_effect=resolve):
         NousPortalAdapter().get_credential()
@@ -90,7 +90,7 @@ def test_nous_adapter_concurrent_refresh_serialized(tmp_path, monkeypatch):
             return {
                 "api_key": f"key-{idx}",
                 "expires_at": "2099-01-01T00:00:00Z",
-                "base_url": "https://inference-api.nousresearch.com/v1",
+                "base_url": "http://0.0.0.0",
             }
         finally:
             in_flight.clear()

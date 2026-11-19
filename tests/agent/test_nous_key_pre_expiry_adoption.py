@@ -20,7 +20,7 @@ def _jwt(exp: float, sub: str = "acct-A") -> str:
 
 class _Agent(ClientLifecycleMixin):
     def __init__(self, key):
-        self.provider, self.api_mode, self.api_key, self.base_url = "nous", "chat_completions", key, "https://inference-api.nousresearch.com/v1"
+        self.provider, self.api_mode, self.api_key, self.base_url = "nous", "chat_completions", key, "http://0.0.0.0"
         self._client_kwargs, self.adopted = {}, []
 
     def _adopt_openai_credentials(self, api_key, base_url, *, reason):
@@ -88,7 +88,7 @@ def test_keepalive_thread_starts_when_an_agent_routes_to_nous(monkeypatch, tmp_p
     monkeypatch.setattr("model_tools.get_tool_definitions", lambda *a, **k: [])
     monkeypatch.setattr("model_tools.check_toolset_requirements", lambda *a, **k: {})
     monkeypatch.setattr("agent.process_bootstrap.OpenAI", MagicMock())
-    AIAgent(api_key="k", base_url="https://inference-api.nousresearch.com/v1", provider="nous",
+    AIAgent(api_key="k", base_url="http://0.0.0.0", provider="nous",
             model="anthropic/claude-fable-5.1", quiet_mode=True, skip_context_files=True, skip_memory=True)
     assert started == [1]
     AIAgent(api_key="k", base_url="https://openrouter.ai/api/v1", provider="openrouter",

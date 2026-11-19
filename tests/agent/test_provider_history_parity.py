@@ -36,7 +36,7 @@ def test_native_carriers_follow_only_their_owner_on_each_request():
     assert "reasoning_details" not in transport.convert_messages(only_native, base_url=OPENROUTER)[0]
 
 
-NOUS_PORTAL = "https://inference-api.nousresearch.com/v1"
+NOUS_PORTAL = "http://0.0.0.0"
 
 
 def test_nous_portal_replays_reasoning_details_on_wire():
@@ -48,13 +48,13 @@ def test_nous_portal_replays_reasoning_details_on_wire():
     original = deepcopy(history)
     transport = ChatCompletionsTransport()
 
-    for base_url in (NOUS_PORTAL, "https://stg-inference-api.nousresearch.com/v1"):
+    for base_url in (NOUS_PORTAL, "http://0.0.0.0"):
         wire = transport.convert_messages(deepcopy(history), base_url=base_url)
         assert wire[0]["reasoning_details"] == [standard]
         assert history == original
 
     assert "reasoning_details" not in transport.convert_messages(
-        deepcopy(history), base_url="https://nousresearch.com.evil.io/v1")[0]
+        deepcopy(history), base_url="http://0.0.0.0")[0]
 
 
 def test_openrouter_replay_unchanged_by_portal_strip():

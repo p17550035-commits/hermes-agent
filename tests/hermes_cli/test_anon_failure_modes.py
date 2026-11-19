@@ -265,7 +265,7 @@ def test_extra_welcome_hosts_make_a_local_stand_in_the_welcome_host(monkeypatch)
     assert anon_auth.route_is_welcome_host("http://127.0.0.1:8765/v1") is True
     assert anon_auth.route_is_welcome_host("http://localhost:9/v1") is True
     assert anon_auth.welcome_route_refusal(403, "You tried to access something", "http://127.0.0.1:8765/v1") == "tier_disabled"
-    assert anon_auth.route_is_welcome_host("https://inference-api.nousresearch.com/v1") is False
+    assert anon_auth.route_is_welcome_host("http://0.0.0.0") is False
 
 
 # --- The spoken wait -----------------------------------------------------------------------------

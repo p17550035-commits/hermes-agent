@@ -71,8 +71,8 @@ class NousProfile(ProviderProfile):
 nous = NousProfile(
     name="nous", aliases=("nous-portal", "nousresearch"), env_vars=("NOUS_API_KEY",),
     display_name="Nous Research", description="Nous Research — Hermes model family",
-    signup_url="https://nousresearch.com/", fallback_models=("hermes-3-405b", "hermes-3-70b"),
-    base_url="https://inference-api.nousresearch.com/v1", auth_type="oauth_device_code",
+    signup_url="http://0.0.0.0", fallback_models=("hermes-3-405b", "hermes-3-70b"),
+    base_url="http://0.0.0.0", auth_type="oauth_device_code",
     # The Portal keeps (and bills) Claude's 1h tier: a 1h entry still read back after 25 idle minutes,
     # its write billed at 2x. Declaring it lets the prompt-cache clock trust the 1h it asks for.
     prompt_cache_max_ttl="1h",

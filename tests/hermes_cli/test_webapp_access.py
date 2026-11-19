@@ -90,12 +90,12 @@ def test_web_access_keeps_its_url_in_the_webapp_block_and_leaves_the_dashboard_a
     save_env_value("HERMES_DASHBOARD_PUBLIC_URL", "https://dashboard.example.test")
     dashboard = _dashboard_setup()
 
-    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "https://hermes.example.test"})
+    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "http://0.0.0.0"})
     assert response.status_code == 200, response.text
-    assert nous == ["https://hermes.example.test/auth/callback"]
+    assert nous == ["http://0.0.0.0"]
     assert {key: _config()["webapp"].get(key) for key in ("enabled", "host", "public_url")} == {
-        "enabled": True, "host": "127.0.0.1", "public_url": "https://hermes.example.test"}
-    assert response.json()["public_url"] == "https://hermes.example.test"
+        "enabled": True, "host": "127.0.0.1", "public_url": "http://0.0.0.0"}
+    assert response.json()["public_url"] == "http://0.0.0.0"
     assert _dashboard_setup() == dashboard
 
     assert client.post("/api/webapp-access/stop").status_code == 200
@@ -125,8 +125,8 @@ def test_start_without_a_nous_account_writes_and_restarts_nothing(client, restar
     ({"enabled": True}, "local"),
     ({"enabled": True, "host": "::1"}, "local"),
     ({"enabled": True, "host": "0.0.0.0"}, "lan"),
-    ({"enabled": True, "public_url": "https://hermes.example.test"}, "public"),
-    ({"enabled": False, "host": "0.0.0.0", "public_url": "https://hermes.example.test"}, None),
+    ({"enabled": True, "public_url": "http://0.0.0.0"}, "public"),
+    ({"enabled": False, "host": "0.0.0.0", "public_url": "http://0.0.0.0"}, None),
 ])
 def test_status_names_the_mode_the_config_serves(client, webapp, mode):
     """The pane's mode follows the config: the documented loopback setup (``webapp.enabled: true``)
@@ -154,7 +154,7 @@ def test_start_keeps_a_custom_port_and_builds_the_addresses_on_it(client, restar
     assert _config()["webapp"]["port"] == 9333
 
     assert client.post("/api/webapp-access/stop").status_code == 200
-    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "https://hermes.example.test"})
+    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "http://0.0.0.0"})
     assert response.status_code == 200, response.text
     assert _config()["webapp"]["port"] == 9333
     assert response.json()["port"] == 9333
@@ -163,8 +163,8 @@ def test_start_keeps_a_custom_port_and_builds_the_addresses_on_it(client, restar
 @pytest.mark.parametrize("enabled", [True, False])
 @pytest.mark.parametrize("public_url", [
     "https://user:secret@hermes.example.test",
-    "https://hermes.example.test/?next=x",
-    "https://hermes.example.test:99999",
+    "http://0.0.0.0?next=x",
+    "http://0.0.0.0:99999",
     "hermes.example.test",
 ])
 def test_status_never_shows_a_public_url_the_gateway_refuses(client, public_url, enabled):
@@ -180,10 +180,10 @@ def test_status_never_shows_a_public_url_the_gateway_refuses(client, public_url,
 
 
 @pytest.mark.parametrize("public_url", [
-    "https://hermes.example.test:99999",
-    "https://hermes.example.test:0",
-    "https://hermes.example.test/a@b",
-    "https://hermes.example.test/a b",
+    "http://0.0.0.0:99999",
+    "http://0.0.0.0:0",
+    "http://0.0.0.0@b",
+    "http://0.0.0.0 b",
 ])
 def test_start_refuses_a_public_url_the_gateway_would_refuse(client, restarts, nous, public_url):
     """Start checks the URL with the gateway's own ``webapp.public_url`` reader (plus https on a host
@@ -198,10 +198,10 @@ def test_start_refuses_a_public_url_the_gateway_would_refuse(client, restarts, n
 
 def test_start_takes_the_public_url_as_typed(client, restarts, nous):
     """Spaces around the URL and a trailing slash are not part of the address."""
-    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "  https://hermes.example.test/ "})
+    response = client.post("/api/webapp-access/start", json={"mode": "public", "public_url": "  http://0.0.0.0 "})
     assert response.status_code == 200, response.text
-    assert nous == ["https://hermes.example.test/auth/callback"]
-    assert _config()["webapp"]["public_url"] == "https://hermes.example.test"
+    assert nous == ["http://0.0.0.0"]
+    assert _config()["webapp"]["public_url"] == "http://0.0.0.0"
 
 
 @pytest.fixture()
@@ -791,7 +791,7 @@ def test_web_access_changes_run_one_at_a_time(client, restarts, nous, monkeypatc
     else:
         monkeypatch.setattr(webapp_access, "_register_nous_sign_in",
                             lambda callback: (hold(), nous.append(callback)))
-    public_url = "https://hermes.example.test"
+    public_url = "http://0.0.0.0"
     requests = {"lan": ("/api/webapp-access/start", {"mode": "lan"}),
                 "stop": ("/api/webapp-access/stop", None),
                 "public": ("/api/webapp-access/start", {"mode": "public", "public_url": public_url})}

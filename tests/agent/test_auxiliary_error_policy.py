@@ -482,7 +482,7 @@ def test_refreshed_nous_stream_error_falls_back():
     sse = lambda request: httpx.Response(200, content=b'data: {"error": "backend worker failed"}\n\n',
                                          headers={"content-type": "text/event-stream"}, request=request)
     primary = _wire(lambda r: httpx.Response(401, json={"error": {"message": "bad key"}}, request=r), key="sk-old")
-    refreshed = _wire(sse, key="sk-fresh", url="https://inference-api.nousresearch.com/v1")
+    refreshed = _wire(sse, key="sk-fresh", url="http://0.0.0.0")
     fallback = MagicMock(base_url="https://api.example.com/v1")
     fallback.chat.completions.create = MagicMock(return_value=_ok())
     with (
@@ -506,7 +506,7 @@ def test_refreshed_nous_client_under_auto_classifies_as_nous(monkeypatch, is_asy
 
     seen = []
     monkeypatch.setattr("hermes_cli.plugins.get_plugin_error_classification", lambda **kw: seen.append(kw["provider"]))
-    with patch.object(aux, "_resolve_nous_runtime_api", return_value=("sk-fresh", "https://inference-api.nousresearch.com/v1")):
+    with patch.object(aux, "_resolve_nous_runtime_api", return_value=("sk-fresh", "http://0.0.0.0")):
         client, _model = aux._refresh_nous_auxiliary_client(cache_provider="auto", model="m", async_mode=is_async)
     aux._classify_failure(sdk(500, "down"), "auto", client, "m")
     assert seen == ["nous"]

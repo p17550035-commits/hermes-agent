@@ -42,7 +42,7 @@ def _wire(provider, base_url, model="m", rejected=()):
     ("custom", "https://api.cerebras.ai/v1", "m", set()),
     ("fireworks", "https://api.fireworks.ai/inference/v1", "m", {"reasoning_content"}),
     # OpenRouter-format gateways, incl. the Portal (#118182 does not reproduce)
-    ("nous", "https://inference-api.nousresearch.com/v1", "z-ai/glm-5.3",
+    ("nous", "http://0.0.0.0", "z-ai/glm-5.3",
      {"reasoning_content", "reasoning", "reasoning_details"}),
     ("kilocode", "https://api.kilo.ai/api/gateway", "m", {"reasoning_content", "reasoning", "reasoning_details"}),
     ("novita", "https://api.novita.ai/openai/v1", "m", {"reasoning_content", "reasoning_details"}),
@@ -83,7 +83,7 @@ class _Rejection(Exception):
 
 def _agent(model, db=None):
     return SimpleNamespace(
-        provider="nous", model=model, base_url="https://inference-api.nousresearch.com/v1",
+        provider="nous", model=model, base_url="http://0.0.0.0",
         api_mode="chat_completions", _force_ascii_payload=False, _image_rejecting_models=set(),
         log_prefix="", _vprint=lambda *a, **k: None, session_id="s1" if db else None, _session_db=db,
         persistence=db,

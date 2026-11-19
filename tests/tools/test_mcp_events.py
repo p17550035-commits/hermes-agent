@@ -16,7 +16,7 @@ from tools import mcp_tool_events as events
 from tools.mcp_tool_registration import _select_utility_schemas
 from tests.waiting import async_wait_until
 
-PUBLIC_URL = "https://hermes.example.com"
+PUBLIC_URL = "http://0.0.0.0"
 ARGS = {"feed_id": "11111111-1111-4111-8111-111111111111"}
 _EVENT_UTILITY_KEYS = ("list_event_types", "subscribe_event", "unsubscribe_event")
 

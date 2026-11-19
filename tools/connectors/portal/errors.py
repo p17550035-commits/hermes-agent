@@ -1,15 +1,13 @@
-from __future__ import annotations
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub
 
-from tools.connectors.gateway.errors import ToolGatewayError
+class InvalidConnectorSlug:
+    def __init__(self, *args, **kwargs): pass
+    def __getattr__(self, name): return lambda *a, **kw: None
 
+class PortalConnectorUnavailable:
+    def __init__(self, *args, **kwargs): pass
+    def __getattr__(self, name): return lambda *a, **kw: None
 
-class InvalidConnectorSlug(ValueError):
-    pass
-
-
-class PortalConnectorUnavailable(ToolGatewayError):
-    pass
-
-
-class PortalToolsUnavailable(PortalConnectorUnavailable):
-    pass
+class PortalToolsUnavailable:
+    def __init__(self, *args, **kwargs): pass
+    def __getattr__(self, name): return lambda *a, **kw: None

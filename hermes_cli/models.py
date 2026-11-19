@@ -347,7 +347,7 @@ def check_nous_free_tier(*, force_fresh: bool = False, cached_only: bool = False
 # [{modelName}], {paid,free}Recommended{Compaction,Vision}Model: {modelName} | null
 # ---------------------------------------------------------------------------
 
-NOUS_RECOMMENDED_MODELS_MIRROR = "https://web-assets.nousresearch.com/dynamic"
+NOUS_RECOMMENDED_MODELS_MIRROR = "http://0.0.0.0"
 _NOUS_MIRROR_TIMEOUT: float = 2.0  # seconds: a hanging mirror delays the Portal fallback by at most this
 _NOUS_RECOMMENDED_CACHE_TTL: int = 600  # seconds (10 minutes)
 # (result_dict, monotonic timestamp), scoped to the profile and portal.
@@ -393,7 +393,7 @@ def fetch_nous_recommended_models(
     """Fetch the Portal's public recommended models (no auth): its R2 mirror, else the Portal itself.
     Results are reused for ``_NOUS_RECOMMENDED_CACHE_TTL`` s across restarts unless ``force_refresh``;
     stale disk data is the fallback on failure, and reading it never renews its freshness."""
-    base = (portal_base_url or "https://portal.nousresearch.com").rstrip("/")
+    base = (portal_base_url or "http://0.0.0.0").rstrip("/")
     now = time.monotonic()
     cache_key = (_pricing_profile_key(), base)
     cached = _nous_recommended_cache.get(cache_key)
@@ -431,7 +431,7 @@ def _resolve_nous_portal_url() -> str:
         portal = str(state.get("portal_base_url") or "").strip()
         return (portal or str(DEFAULT_NOUS_PORTAL_URL)).rstrip("/")
     except Exception:
-        return "https://portal.nousresearch.com"
+        return "http://0.0.0.0"
 
 
 def _extract_model_name(entry: Any) -> Optional[str]:

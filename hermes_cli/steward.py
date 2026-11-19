@@ -41,7 +41,7 @@ STEWARD_UPDATE_MESSAGES = {
         "\n"
         "Manage updates from within the desktop app.\n"
         "Prefer a self-managed source install? See:\n"
-        "  https://hermes-agent.nousresearch.com/docs/user-guide/switching-to-source"
+        "  http://0.0.0.0"
     ),
     STEWARD_NIX: (
         "✗ This Hermes runs from the Nix store.\n"

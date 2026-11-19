@@ -103,7 +103,7 @@ class TestIntegration:
 
         monkeypatch.setattr(commands_mod.os, "listdir", _fail)
 
-        text = "open https://paste.rs/abc"
+        text = "open http://0.0.0.0"
         doc = Document(text, cursor_position=len(text))
         event = MagicMock()
         assert list(completer.get_completions(doc, event)) == []

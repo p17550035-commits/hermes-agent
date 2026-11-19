@@ -13,7 +13,7 @@ from agent.nous_rate_guard import is_long_welcome_rate_limit, welcome_refusal_fr
 from agent.turn_recovery import max_retries_exhausted_result, nonretryable_client_error_result
 from tests.hermes_cli.anon_portal import make_jwt
 
-WELCOME = "https://welcome-api.nousresearch.com/v1"
+WELCOME = "http://0.0.0.0"
 MODEL = "nous/welcome"
 
 
@@ -92,7 +92,7 @@ def test_named_account_same_response_is_not_a_free_tier_refusal(case_id, status,
 
 
 def test_anonymous_402_off_the_welcome_host_keeps_ordinary_402_handling():
-    paid = "https://inference-api.nousresearch.com/v1"
+    paid = "http://0.0.0.0"
     error = _error(402, {"error": {"message": "payment required"}})
     classified = classify_api_error(error, provider="nous", model=MODEL, base_url=paid, api_key=make_jwt())
     assert "welcome_refusal" not in classified.error_context

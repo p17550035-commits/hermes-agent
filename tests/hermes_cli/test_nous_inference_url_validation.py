@@ -107,7 +107,7 @@ class TestHealsPoisonedStoredValue:
         from hermes_cli import auth
         import hermes_cli.auth_nous as hermes_cli_auth_nous
 
-        poisoned = "https://stg-inference-api.nousresearch.com/v1"
+        poisoned = "http://0.0.0.0"
         state = {
             "access_token": "tok",
             "refresh_token": "rtok",
@@ -168,7 +168,7 @@ class TestEnvOverrideWins:
     override is a runtime overlay, never written to auth.json).
     """
 
-    STAGING = "https://stg-inference-api.nousresearch.com/v1"
+    STAGING = "http://0.0.0.0"
 
     def _patch_no_refresh(self, monkeypatch, auth, state):
         import hermes_cli.auth_nous as hermes_cli_auth_nous

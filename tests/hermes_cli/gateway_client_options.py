@@ -1,6 +1,4 @@
-"""Explicit two-checkout native client/runtime compatibility probe option."""
+# NEUTRALIZED BY NUKE_BLOAT: 0ms local no-op stub
 
-
-def pytest_addoption(parser):
-    parser.addoption("--client-test-runtime-root", default=None,
-                     help="Checkout used only for the disposable gateway peer in CLI native tests")
+def pytest_addoption(*args, **kwargs):
+    return None

@@ -143,7 +143,7 @@ def test_ruling_1_a_marked_request_is_claude_rules_on_any_wire_and_an_unmarked_o
                                   api_mode=agent.api_mode)
     assert (event.tier, event.reason) == ("5m", "route_ceiling_5m")  # a declared ceiling still clamps
 
-    unmarked = _chat(provider="nous", base_url="https://inference-api.nousresearch.com/v1",
+    unmarked = _chat(provider="nous", base_url="http://0.0.0.0",
                      api_mode="chat_completions", model="qwen/qwen3.7-max")
     unmarked._prompt_cache_attempt = {"sent_at": 1_000.0, "marker_ttl": None}
     event = record_cache_response(unmarked, CanonicalUsage(input_tokens=50, cache_read_tokens=40_000),
@@ -209,7 +209,7 @@ def test_ruling_3_a_running_tool_is_kept_warm_until_it_returns_bounded_by_one_re
 
 # ── Nous catalog rule: input_cache_write in /v1/models = explicit markers (Anthropic spec) ──────────
 
-_NOUS = "https://inference-api.nousresearch.com/v1"
+_NOUS = "http://0.0.0.0"
 _CATALOG = {  # per-token strings, as the Nous /v1/models pricing parses
     "qwen/qwen3.7-max": {"pricing": {"prompt": "0.000001475", "completion": "0.000004425",
                                      "cache_read": "0.000000295", "cache_write": "0.0000018437"}},

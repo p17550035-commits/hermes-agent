@@ -22,7 +22,7 @@ import agent.prompt_cache_routes as routes
 
 _OPUS = SimpleNamespace(input_cost_per_million=5, output_cost_per_million=25,
                         cache_read_cost_per_million=0.5, cache_write_cost_per_million=10)
-_NOUS = "https://inference-api.nousresearch.com/v1"
+_NOUS = "http://0.0.0.0"
 
 
 class _Usage:

@@ -32,7 +32,7 @@ def _agent() -> AIAgent:
 
 
 def _auth_401() -> openai.AuthenticationError:
-    req = httpx.Request("POST", "https://inference-api.nousresearch.com/v1/chat/completions")
+    req = httpx.Request("POST", "http://0.0.0.0")
     return openai.AuthenticationError(
         "authentication required", response=httpx.Response(401, request=req),
         body={"error": "authentication required"})

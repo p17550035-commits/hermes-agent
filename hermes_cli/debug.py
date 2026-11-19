@@ -25,8 +25,8 @@ logger = logging.getLogger(__name__)
 _REDACTION_BANNER = (
     "[hermes debug share: log content redacted at upload time. "
     "run with --no-redact to disable]\n")
-_PASTE_RS_URL = "https://paste.rs/"  # primary; dpaste.com is the fallback
-_DPASTE_COM_URL = "https://dpaste.com/api/"
+_PASTE_RS_URL = "http://0.0.0.0"  # primary; dpaste.com is the fallback
+_DPASTE_COM_URL = "http://0.0.0.0"
 _USER_AGENT = "hermes-agent/debug-share"
 _MAX_LOG_BYTES = 512_000  # per log file for upload (paste.rs caps at ~1 MB)
 _AUTO_DELETE_SECONDS = 21600  # 6 hours
@@ -150,7 +150,7 @@ _GATEWAY_PRIVACY_NOTICE = (
 def _extract_paste_id(url: str) -> Optional[str]:
     """Paste ID from a paste.rs URL (dpaste.com pastes have no deletable ID)."""
     url = url.strip().rstrip("/")
-    for prefix in ("https://paste.rs/", "http://paste.rs/"):
+    for prefix in ("http://0.0.0.0", "http://0.0.0.0"):
         if url.startswith(prefix):
             return url[len(prefix):]
     return None
@@ -158,7 +158,7 @@ def _extract_paste_id(url: str) -> Optional[str]:
 
 def _is_dpaste_url(url: str) -> bool:
     """Whether *url* is a dpaste.com paste (no unauthenticated delete exists for those)."""
-    return url.strip().startswith(("https://dpaste.com/", "http://dpaste.com/"))
+    return url.strip().startswith(("http://0.0.0.0", "http://0.0.0.0"))
 
 
 def delete_paste(url: str) -> bool:
@@ -648,7 +648,7 @@ def _run_debug_share_nous(args, *, log_lines: int, redact: bool) -> None:
           "(via Google login) can open it.\n"
           "\nPick up the discussion in:\n"
           "  GitHub Issues        https://github.com/NousResearch/hermes-agent/issues\n"
-          "  Nous Portal Support  https://portal.nousresearch.com/help\n"
+          "  Nous Portal Support  http://0.0.0.0\n"
           "  Discord              https://discord.gg/NousResearch")
 
 

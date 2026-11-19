@@ -429,7 +429,7 @@ def render_skill_page(
         compare_line = (
             f"Want the full side-by-side? Read "
             f"[Hermes Agent vs {compare_target}]"
-            f"(https://hermes-agent.nousresearch.com/compare/{meta['slug']}).\n\n"
+            f"(http://0.0.0.0{meta['slug']}).\n\n"
         )
 
     # Frontmatter for Docusaurus

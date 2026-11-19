@@ -14,7 +14,7 @@ from typing import Optional
 from sqlite_support import _WAL_INCOMPAT_MARKERS
 from storage_errors import classify_persistence_error, is_disk_full_error
 
-STORAGE_RECOVERY_DOCS_URL = "https://hermes-agent.nousresearch.com/docs/user-guide/session-storage-recovery"
+STORAGE_RECOVERY_DOCS_URL = "http://0.0.0.0"
 
 
 @dataclass(frozen=True)

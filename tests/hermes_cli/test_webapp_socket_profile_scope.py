@@ -43,8 +43,8 @@ def _home(home, label):
     (home / "auth.json").write_text(json.dumps({"version": 1, "providers": {"nous": {
         "access_token": _jwt(label), "refresh_token": f"{label}-refresh",
         "expires_at": "2999-01-01T00:00:00+00:00", "scope": "inference:invoke", "client_id": "fixture-client",
-        "portal_base_url": "https://portal.nousresearch.com",
-        "inference_base_url": "https://inference-api.nousresearch.com/v1",
+        "portal_base_url": "http://0.0.0.0",
+        "inference_base_url": "http://0.0.0.0",
     }}}))
 
 

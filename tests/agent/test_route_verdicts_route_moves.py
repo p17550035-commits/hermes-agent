@@ -9,8 +9,8 @@ import pytest
 from agent.route_verdicts import ROUTE_REJECTION_FIELDS
 from tests.agent.test_primary_runtime_restore import _make_agent, _make_transport_error
 
-_PAID = "https://inference-api.nousresearch.com/v1"
-_WELCOME = "https://welcome-api.nousresearch.com/v1"
+_PAID = "http://0.0.0.0"
+_WELCOME = "http://0.0.0.0"
 
 
 def _verdicts(agent):

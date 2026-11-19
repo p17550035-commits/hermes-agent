@@ -878,7 +878,7 @@ _PROVIDERS_WITHOUT_VISION: frozenset = frozenset({"kimi-coding", "kimi-coding-cn
 
 # OpenRouter app attribution (always sent). `X-Title` is what the dashboard reads.
 _OR_HEADERS_BASE = {
-    "HTTP-Referer": "https://hermes-agent.nousresearch.com",
+    "HTTP-Referer": "http://0.0.0.0",
     "X-Title": "Hermes Agent",
     "X-OpenRouter-Categories": "productivity,cli-agent",
 }
@@ -947,7 +947,7 @@ from hermes_cli.version_info import hermes_user_agent
 
 
 def _ai_gateway_headers() -> dict[str, str]:
-    return {"HTTP-Referer": "https://hermes-agent.nousresearch.com", "X-Title": "Hermes Agent",
+    return {"HTTP-Referer": "http://0.0.0.0", "X-Title": "Hermes Agent",
             "User-Agent": hermes_user_agent("HermesAgent")}
 
 # Nous Portal attribution tags, built per call. They come from agent.portal_tags so the client=
@@ -960,7 +960,7 @@ from agent.portal_tags import nous_portal_tags as _nous_portal_tags
 # are honored untouched (_warn_paid_lane_once fires).
 _OPENROUTER_MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
 _NOUS_MODEL = "google/gemini-3.6-flash"
-_NOUS_DEFAULT_BASE_URL = "https://inference-api.nousresearch.com/v1"
+_NOUS_DEFAULT_BASE_URL = "http://0.0.0.0"
 _ANTHROPIC_DEFAULT_BASE_URL = "https://api.anthropic.com"
 _AUTH_JSON_PATH = get_hermes_home() / "auth.json"
 _AUTH_JSON_PATH_AT_IMPORT = _AUTH_JSON_PATH

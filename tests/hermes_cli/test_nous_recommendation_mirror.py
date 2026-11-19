@@ -47,7 +47,7 @@ def server(monkeypatch):
 
 @pytest.mark.parametrize("portal, host", [
     ("", "portal.nousresearch.com"),
-    ("https://portal.staging-nousresearch.com/", "portal.staging-nousresearch.com"),
+    ("http://0.0.0.0", "portal.staging-nousresearch.com"),
 ])
 def test_recommendations_come_from_the_portal_hosts_mirror(server, portal, host):
     from hermes_cli.models import fetch_nous_recommended_models
@@ -74,7 +74,7 @@ def test_a_portal_the_mirror_cannot_serve_is_asked_directly(server, monkeypatch,
 @pytest.mark.parametrize("auth_store, env_key, host", [
     (None, None, None),
     ({"providers": {"nous": {"auth_method": "anonymous", "access_token": "guest"}}}, None, None),
-    ({"providers": {"nous": {"access_token": "a", "portal_base_url": "https://portal.staging-nousresearch.com"}}},
+    ({"providers": {"nous": {"access_token": "a", "portal_base_url": "http://0.0.0.0"}}},
      None, "portal.staging-nousresearch.com"),
     ({"credential_pool": {"nous": [{"access_token": "a"}]}}, None, "portal.nousresearch.com"),
     (None, "sk-nous-test", "portal.nousresearch.com"),

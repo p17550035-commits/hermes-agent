@@ -31,7 +31,7 @@ from hermes_cli.auth import _load_auth_store
 from hermes_constants import get_hermes_home
 from tests.hermes_cli.anon_portal import as_local_desktop_backend, off_local_desktop
 
-WELCOME = "https://welcome-api.nousresearch.com/v1"
+WELCOME = "http://0.0.0.0"
 # Words that must never appear on a user-facing free-tier surface.
 _FORBIDDEN = re.compile(r"guest|anonymous|user id|org id|nas_user|nas_organisation", re.IGNORECASE)
 
@@ -64,7 +64,7 @@ def _account_state() -> dict:
         "auth_method": "oauth_device_code", "client_id": "hermes-cli",
         "access_token": _jwt(sub="nas_user:real", client_id="hermes-cli", account_tier="standard", paid_access=True),
         "refresh_token": "rt_live", "expires_at": "2030-01-01T00:00:00+00:00",
-        "portal_base_url": "https://portal.nousresearch.com", "inference_base_url": "https://inference-api.nousresearch.com/v1",
+        "portal_base_url": "http://0.0.0.0", "inference_base_url": "http://0.0.0.0",
     }
 
 
