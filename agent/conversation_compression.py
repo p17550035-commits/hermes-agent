@@ -34,8 +34,8 @@ from agent.conversation_compression_codex import _compress_context_via_codex_app
 from agent.conversation_compression_deadline import resolve_context_compression_timeouts
 from agent.conversation_compression_scaffolding import _SYNTHETIC_USER_FLAGS, _message_text, is_user_role_scaffolding
 from agent.conversation_compression_telemetry import (
-_emit_aborted_attempt_telemetry, _emit_blocked_attempt_telemetry, _emit_bypassed_attempt_telemetry,
-_emit_compression_attempt_telemetry, _record_committed_attempt_effect, _snapshot_compression_effect_input,
+    _emit_aborted_attempt_telemetry, _emit_blocked_attempt_telemetry, _emit_bypassed_attempt_telemetry,
+    _emit_compression_attempt_telemetry, _record_committed_attempt_effect, _snapshot_compression_effect_input,
 )
 ## there is a goddamn indentation issue at line 37 fix that fucking bullshit!!!! ##
 from agent.memory_provider import PRE_COMPRESS_CHECKPOINT_API_VERSION
